@@ -1,8 +1,8 @@
-
+// uses NextJs own Response
 import { NextResponse,NextRequest } from 'next/server'
 
 // this is get request
-// http://localhost:3000/api/user (For get request)
+// http://localhost:3000/api/User (For get request)
 export async function GET(request:Request) {
   try{
 
@@ -18,7 +18,7 @@ export async function GET(request:Request) {
 }
 
 // this is post request (To open press CTRL + hover on the link)
-// http://localhost:3000/api/user
+// http://localhost:3000/api/User
 export async function POST(request:Request) {
 
   try{
