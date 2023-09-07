@@ -36,7 +36,7 @@ export default class Connection{
             });
         }else{
                 const position = {
-                    x:60 ,y:60,commonVal:10
+                    x:250 ,y:250,commonVal:0
                 }
 
                 const e =
@@ -49,8 +49,8 @@ export default class Connection{
                         "noItems":true
                     }
 
-                const emptyItem = new Root(e,this.context,position)
                 if(e.noItems===true){
+                    const emptyItem = new Root(e,this.context,position)
                     // emptyItem.noItem()
                 }
         }
