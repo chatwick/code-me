@@ -7,6 +7,7 @@ import {GoHomeFill} from "react-icons/go"
 import {AiOutlineCodeSandbox} from "react-icons/ai"
 import {MdForum} from "react-icons/md"
 import {BiSolidHelpCircle} from "react-icons/bi"
+import {FcHeatMap} from "react-icons/fc"
 
 
 export default function NavBar()
@@ -56,6 +57,7 @@ export default function NavBar()
                     <li><Link className='text-blue-500' href="/"><MdForum/> Forum</Link></li>
                     <hr className='my-4' />
                     <li><Link className='text-blue-400' href="/"><BiSolidHelpCircle/>Error helper</Link></li>
+                    <li><Link className='text-blue-400' href="/"><FcHeatMap size={22}/>Code Visualizer</Link></li>
                 </ul>
 
 
