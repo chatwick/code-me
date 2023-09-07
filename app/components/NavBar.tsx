@@ -19,8 +19,6 @@ export default function NavBar()
         }
 
     }
-
-
     return (
         <div className="drawer drawer-start">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -34,7 +32,7 @@ export default function NavBar()
 
                     </div>
                     <div className="flex-1">
-                        <a className="btn btn-ghost normal-case text-xl">CODE ME</a>
+                        <Link className='btn btn-ghost normal-case text-xl' href="/">CODE ME</Link>
                     </div>
                     <div className="flex-none">
                         <button className="btn btn-square btn-ghost">
@@ -51,7 +49,7 @@ export default function NavBar()
                 <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
                     {/* Sidebar content here */}
                     <li><Link href="/">Home</Link></li>
-                    <li><Link href="/editor">Editor</Link></li>
+                    <li><Link href="/editor/new-editor">Editor</Link></li>
                     <li><Link href="/">Forum</Link></li>
                 </ul>
 

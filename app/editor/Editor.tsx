@@ -1,5 +1,14 @@
 "use client"
 
+/**
+ * NOTE: THIS EDITOR IS REDUNDANT
+ * DO NOT USE THIS
+ * KEEPING THIS TEMPORARILY
+ * 
+ * USE THE ONE IN "new-editor"
+ * 
+ */
+
 import React, { useRef, useEffect } from 'react';
 import * as monaco from 'monaco-editor';
 

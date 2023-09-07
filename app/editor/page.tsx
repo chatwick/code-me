@@ -8,8 +8,8 @@ export default function EditorUI() {
 
   return (
     <main>
-        <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
-        <Editor/>
+        <div className="overlay rounded-md w-full h-full shadow-4xl">
+            <Editor/>
         </div>
     </main>
 
