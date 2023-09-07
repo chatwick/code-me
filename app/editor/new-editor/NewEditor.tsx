@@ -28,7 +28,7 @@ export function App({ onChange , language, code, theme } : any)
         height="90vh"
         defaultLanguage="javascript" 
         defaultValue="// some comment" 
-        onChange={handleEditorChange}
+        onChange={() => handleEditorChange}
         beforeMount={handleEditorWillMount}
         />;
 }
