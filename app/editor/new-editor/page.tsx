@@ -1,15 +1,14 @@
 "use client"
 
 import React from 'react'
-import * as monaco from 'monaco-editor';
-import { Editor } from './Editor';
+import { App } from './NewEditor'
 
 export default function EditorUI() {
 
   return (
     <main>
         <div className="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">
-        <Editor/>
+        <App/>
         </div>
     </main>
 
