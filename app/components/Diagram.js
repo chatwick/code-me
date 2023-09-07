@@ -128,11 +128,20 @@ function Diagram() {
   },[data]);
   
   return (
-    <div>
-      <button className='text-black p-20 bg-slate-300 m-5 hover:bg-slate-800 hover:text-white' onClick={handleVisualize}>Visualize</button>
-      <button className='text-black p-20 bg-slate-300 m-5 hover:bg-slate-800 hover:text-white' onClick={handlePrevious}>Previous</button>
-      <button className='text-black p-20 bg-slate-300 m-5 hover:bg-slate-800 hover:text-white' onClick={handleNext}>Next</button>
-      <canvas id='myCanvas' width="1000" height="1000" className='border-solid border-spacing-x-1 bg-gray-600'></canvas>
+    <div className='flex justify-center items-center'>
+      {/* <div>
+        <button className='text-black p-10 bg-slate-300 m-5 hover:bg-slate-800 hover:text-white' onClick={handleVisualize}>Visualize</button>
+        <button className='text-black p-10 bg-slate-300 m-5 hover:bg-slate-800 hover:text-white' onClick={handlePrevious}>Previous</button>
+        <button className='text-black p-10 bg-slate-300 m-5 hover:bg-slate-800 hover:text-white' onClick={handleNext}>Next</button>
+      </div> */}
+      <div className='grid grid-cols-3 gap-3'>
+        <button className='btn btn-primary' onClick={handleVisualize}>Visualize</button>
+        <button className='btn btn-secondary' onClick={handlePrevious}>Previous</button>
+        <button className='btn btn-secondary' onClick={handleNext}>Next</button>
+      </div>
+      <div>
+        <canvas id='myCanvas' width="500" height="500" className='border-solid border-spacing-x-1 bg-gray-600'></canvas>
+      </div>
     </div>
   )
 }

@@ -42,14 +42,17 @@ export default class Connection{
                 const e =
                     {
                         "id":0,
-                        "value":'stack is empty',
+                        "value":'empty',
                         "parent_id":null,
                         "left_id":null,
-                        "right_id":null
+                        "right_id":null,
+                        "noItems":true
                     }
 
                 const emptyItem = new Root(e,this.context,position)
-                emptyItem.noItem()
+                if(e.noItems===true){
+                    // emptyItem.noItem()
+                }
         }
 
         console.log(this.objectLength);

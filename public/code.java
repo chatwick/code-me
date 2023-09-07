@@ -1,11 +1,11 @@
 // Stack myStack = new Stack();
 
-// myStack.push(17)
-// myStack.push(32)
-// myStack.push(64)
-// myStack.pop()
-// myStack.push(87)
 // myStack.push(7)
+// myStack.push(8)
+// myStack.push(6)
+// myStack.pop()
+// myStack.push(5)
+// myStack.push(3)
 // myStack.pop()
 
 // Stack newStack = new Stack()
