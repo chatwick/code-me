@@ -8,42 +8,58 @@ import { child, get, getDatabase, ref } from 'firebase/database';
 const db = getFirestore(app);
 
 // TODO: set this dynamically later
-const errors = 'NullPointerException';
+// const errors = ['NullPointerException', 'ArithmeticException'];
+const errors = [{error:'NullPointerException', lineNo:'12'}, {error:'ArithmeticException', lineNo:'24'}];
+
 
 
 // Fetch data from Firestore
-
-const docRef = doc(db, `error-explanations/${errors}`);
-
-
 function ErrorList() {
-	const [docData, setDocData] = useState({ name: '', explanation: '' });
+	const [docData, setDocData] = useState<{ name: string; explanation: string; lineNo: string }[]>([]);
 
 	useEffect(() => {
-		const fetchDocument = async () => {
-			try {
-				const docSnap = await getDoc(docRef);
-				if (docSnap.exists()) {
-					const data = docSnap.data();
-					setDocData({ name: `${data.name}`, explanation: `${data.explanation}` }); // Update the state with the document data
-				} else {
-					console.log("No such document!");
+		const fetchDocuments = async () => {
+			const dataPromises = errors.map(async (errors) => {
+				const docRef = doc(db, `error-explanations/${errors.error}`);
+
+				try {
+					const docSnap = await getDoc(docRef);
+					if (docSnap.exists()) {
+						const data = docSnap.data();
+						return { name: data.name, explanation: data.explanation, lineNo: errors.lineNo };
+					} else {
+						console.log(`No document found for error: ${errors.error}`);
+						return { name: '', explanation: '', lineNo: errors.lineNo }; // default data
+					}
+				} catch (error) {
+					console.error(`Error fetching document for error ${errors.error}:`, error);
+					return { name: '', explanation: '', lineNo: errors.lineNo };
 				}
-			} catch (error) {
-				console.error("Error fetching document:", error);
-			}
+			});
+
+			const results = await Promise.all(dataPromises);
+			// filter out null results
+			setDocData(results.filter((data) => data !== null) as { name: string; explanation: string; lineNo: string }[]);
 		};
 
-		fetchDocument(); // Call the asynchronous function when the component mounts
+		// Call the asynchronous function when the component mounts
+		fetchDocuments();
 	}, []); // Empty dependency array ensures it runs only once
 
 	return (
 		<div>
-			{docData ? (
-				<div>
-					<h1>Name: {docData.name}</h1>
-					<p>Explanation: {docData.explanation}</p>
-				</div>
+			{docData.length > 0 ? (
+				docData.map((data, index) => (
+					<div className='hero' key={index}>
+						<div className='hero-content text-left'>
+							<h1 className='text-2xl'>{data.name}</h1> <br />
+							<p className='py-6'>
+								<i>At line number {data.lineNo} </i> <br />
+								<i>Explanation:</i> {data.explanation}
+							</p>
+						</div>
+					</div>
+				))
 			) : (
 				<p>Loading...</p>
 			)}
