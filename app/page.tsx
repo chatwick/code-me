@@ -99,7 +99,7 @@ export default function Home()
               </div>
             </div>
 
-            <div className="card lg:card-side bg-base-100 w-1/3 shadow-xl mx-10">
+            <div className="card lg:card-side bg-base-100 lg:w-1/3 sm:w-full shadow-xl mx-10">
               <figure className='relative w-1/2'><Image
                 src={codeSuggestions}
                 alt='codeSampleImage'
@@ -119,14 +119,14 @@ export default function Home()
 
           <div className="flex flex-row justify-center my-5">
 
-            <div className="card lg:card-side bg-base-100 w-1/3 shadow-xl ">
+            <div className="card lg:card-side bg-base-100 lg:w-1/3 sm:w-full shadow-xl ">
               <figure className='relative w-1/2 '><Image
                 src={intellisense}
                 alt='codeSampleImage'
                 quality={100}
                 fill={true}
               /></figure>
-              <div className="card-body w-1/2">
+              <div className="card-body lg:w-1/3 sm:w-full">
                 <h2 className="card-title">Simplified error messages</h2>
                 <p>No more complex error messages</p>
                 <div className="card-actions justify-end">
