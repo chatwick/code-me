@@ -15,16 +15,16 @@ export default function Home() {
 
   const [message,setMessage] = useState("");
 
-  async function sendMessage(data: FormData) {
-    const msg = data.get("msg")?.valueOf()
-    if(!msg){
+  async function sendMessage(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault(); 
+    if(!message){
       const error = document.getElementById('error') as HTMLFormElement
       error.innerHTML = "Message cannot be empty"
     }else{
       const error = document.getElementById('error') as HTMLFormElement
       error.innerHTML = ""
       const msgData ={
-        msg,
+        message,
         user: "John Smith"
       }
       await addData(msgData)
@@ -97,7 +97,7 @@ const newMessage6={
     <MessageCard {...newMessage4}/>
     <MessageCard {...newMessage5}/>
     <MessageCard {...newMessage6}/>
-    <form className="flex-grow" action={sendMessage}>
+    <form className="flex-grow" onSubmit={sendMessage}>
     <textarea name="msg" value={message} onChange={(e) => setMessage(e.target.value)} className="textarea textarea-bordered textarea-lg w-full max-w-xs flex items-stretch"/>
     <label className="label">
     <span id="error" className="label-text-alt text-red-600"></span>
