@@ -1,15 +1,13 @@
 import firebase_app from "../config";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, collection, serverTimestamp, setDoc, updateDoc, doc } from "firebase/firestore";
 
 const db = getFirestore(firebase_app)
 
 export default async function addData(data) {
 
-    const docRef = await addDoc(collection(db, "discussion"), {
-        data
-      });
+    const docRef = await setDoc(collection(db, "discussion"), data)
 
-      const updateTimestamp = await updateDoc(docRef, {
+      await updateDoc(doc(docRef), {
         updatedAt: serverTimestamp()
     });
 }
