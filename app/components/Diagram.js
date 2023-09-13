@@ -6,7 +6,6 @@ function Diagram() {
   
   const [FileContent, setFileContent] = useState(0);
   const [FileContentType, setFileContentType] = useState(0);
-  const [File, setFile] = useState([]);
   const [data, setData] = useState(null);
   const [obj,setObj] = useState([])
   const [objCount, setCount] = useState(0);
@@ -16,12 +15,10 @@ function Diagram() {
   const operations = [];
 
   const updateContext = (obj) =>{
-    console.log('The object : ',obj);
     ctx.clearRect(0,0,window.innerWidth,window.innerHeight)
     new DiagramFactory(ctx, 0, obj);
   }
-  
-  
+ 
   const handlePrevious = () => {
     if(objCount===-1) return;
     setCount(objCount-1)
@@ -40,11 +37,9 @@ function Diagram() {
     console.log(obj);
   }
   
-  console.log('Object in Diagram : ',obj);
-
-  useEffect(() => {
-    // ###############################################################################
-      const stackName = 'myStack' 
+   useEffect(() => {
+      // const stackName = 'myStack' 
+      const stackName = 'newStack' 
       const pushRegex = new RegExp(`${stackName}\\.push\\((\\d+)\\)`, 'g');
       const operationRegex = new RegExp(`(${stackName}\\.push|${stackName}\\.pop)\\(`, 'g');
       
@@ -66,18 +61,53 @@ function Diagram() {
         }
         setFileContent(pushOperations)
         setFileContentType(operations)
+
+        // let zeroTracker = []
+
+        // if(Array.isArray(FileContentType)){
+        // FileContentType.forEach(function callback(value, index) {
+        //     if(value === 0){
+        //       zeroTracker.push(index)
+        //     } 
+        //   });
+        // }
         
-        let mainObj = []
         let mainArr = 0 
-      
-        while(FileContent.length-1 >= mainArr){
+        let testMainObj = []
+        
+        while(FileContentType.length-1 >= mainArr){
           
-          let subArr = mainArr
+        let subArr = mainArr
+        let index = 0
+        let zeroTrackerIndex = 0
+        let testSubObj = []
+
+        while(subArr >= index){
+          
+          if(FileContentType[index] === 0){
+            zeroTrackerIndex=zeroTrackerIndex+1
+            testSubObj.pop()
+          }
+
+          if(FileContentType[index] === 1){
+            testSubObj.push(FileContent[index-zeroTrackerIndex])
+          }
+
+          index = index + 1;
+        }
+        testMainObj.push(testSubObj)
+        mainArr = mainArr + 1
+      }
+      
+      let mainObjArr = 0 
+      let mainObj = []
+
+      while(testMainObj.length-1 >= mainObjArr){
+        let subArr = mainObjArr
         let subObj = []
         let index = 0
         
-        while(subArr >= index){
-          
+        while(testMainObj[mainObjArr].length-1 >= index){
           let parentId = index - 1;
           if(index === 0) parentId = null;
           
@@ -86,7 +116,7 @@ function Diagram() {
           
           subObj.push({
             "id":index,
-            "value":FileContent[index],
+            "value":testMainObj[mainObjArr][index],
             "parent_id":parentId,
             "left_id":null,
             "right_id":chileId
@@ -95,24 +125,17 @@ function Diagram() {
           index = index + 1;
         }
         
-        mainObj.push(subObj) 
-        mainArr = mainArr + 1
-        // console.log('Main index : ',mainArr,'Object : ',subObj);
+        mainObjArr = mainObjArr + 1
+        mainObj.push(subObj)
       }
-      
-      // console.log('Main object : ',mainObj);
-      console.log('Object in FilerObject : ',mainObj);
-      setFile(mainObj)
       setObj(mainObj)
-      
-      // return mainObj
-      // }
+
     })
     .catch((error) => {
       console.error('Error fetching the file:', error);
     });
 
-    // ###############################################################################
+    //###############################################################################
     const canvas = document.getElementById("myCanvas");
     // Check if the canvas and 2D context are available.
     
@@ -125,15 +148,11 @@ function Diagram() {
       // Update the state with the 2D context.
       setCtx(context);
     }
+
   },[data]);
   
   return (
     <div className='flex justify-center items-center'>
-      {/* <div>
-        <button className='text-black p-10 bg-slate-300 m-5 hover:bg-slate-800 hover:text-white' onClick={handleVisualize}>Visualize</button>
-        <button className='text-black p-10 bg-slate-300 m-5 hover:bg-slate-800 hover:text-white' onClick={handlePrevious}>Previous</button>
-        <button className='text-black p-10 bg-slate-300 m-5 hover:bg-slate-800 hover:text-white' onClick={handleNext}>Next</button>
-      </div> */}
       <div className='grid grid-cols-3 gap-3'>
         <button className='btn btn-primary' onClick={handleVisualize}>Visualize</button>
         <button className='btn btn-secondary' onClick={handlePrevious}>Previous</button>
