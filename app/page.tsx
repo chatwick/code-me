@@ -4,10 +4,6 @@ import MessageCard  from "./components/MessageCard";
 import addData from "@/firebase/firestore/addData";
 import getData from "@/firebase/firestore/getData";
 import { useState, useEffect } from "react";
-import { firestore } from "@/firebase/config";
-import {collection,QueryDocumentSnapshot,DocumentData,query,where,limit,getDocs} from "@firebase/firestore";
-const discussionCollection = collection(firestore,'discussion');
-const db = firestore;
 
 type Message = {
   message: string
