@@ -9,10 +9,15 @@ import {MdForum} from "react-icons/md"
 import {BiSolidHelpCircle} from "react-icons/bi"
 import {FcHeatMap} from "react-icons/fc"
 import { getCurrentUser } from '../utility/dbFunctions';
+import { useRouter } from 'next/navigation';
 
 export default function NavBar()
 {
+    // states
     const [drawerOpen, setDrawerOpen] = useState(false);
+
+    // routerhook
+    const router = useRouter();
 
     // close drawer fucntion -- redundant
     const closeDrawer: any = () =>
@@ -26,8 +31,11 @@ export default function NavBar()
     }
 
     const handleAccountBtnClick = async () =>{
-       const user = getCurrentUser();
+       const result = await getCurrentUser();
+    //    const {user}= result!;
        console.log("handleAccountBtnClick called");
+        
+       console.log(result);
        
     }
     

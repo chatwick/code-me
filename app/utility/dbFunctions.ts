@@ -4,10 +4,11 @@ import {
   updateProfile,
   signOut,
   onAuthStateChanged,
+  User,
 } from "firebase/auth";
 import { auth, firestore } from "@/config/firebase_config";
 import { log } from "console";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { promises } from "dns";
 
 // consts
@@ -111,21 +112,48 @@ export const signOutUser = async () => {
  * This function returns the currently signed in user when called
  * @returns user object
  */
-export const getCurrentUser = async() => {
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/auth.user
-          const uid = user.uid;
-          console.log(`User ID of current user is: ${uid}`);
-          console.log(user);
-          
-          
-          return {status: true, uid, user}
-        } else {
-          // User is signed out
-          return {status: false}
-        }
-      }); 
-}
+export const getCurrentUser = async (): Promise<object> => {
+  return new Promise((resolve) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const uid = user.uid;
+        console.log(`User ID of current user is: ${uid}`);
+        console.log(user);
+        console.log({ status: true, uid, user });
 
+        resolve({ status: true, uid, user });
+      } else {
+        // User is signed out
+        resolve({ status: false });
+      }
+      unsubscribe();
+    });
+  });
+};
+
+// /**
+//  * This function returns the currently signed in user when called
+//  * @returns user object
+//  */
+// export const getCurrentUser = async (): Promise<object> => {
+
+//   const result = await onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//       // User is signed in, see docs for a list of available properties
+//       // https://firebase.google.com/docs/reference/js/auth.user
+//       const uid = user.uid;
+//       console.log(`User ID of current user is: ${uid}`);
+//       console.log(user);
+//       console.log({ status: true, uid, user });
+
+//       return { status: true, uid, user };
+//     } else {
+//       // User is signed out
+//       return { status: false };
+//     }
+//   });
+//   return result;
+
+// };
