@@ -32,15 +32,12 @@ export default function NavBar()
 
     const handleAccountBtnClick = async () =>{
        const result = await getCurrentUser();
-    //    const {user}= result!;
        console.log("handleAccountBtnClick called");
         
        console.log(result);
-       
+
     }
     
-
-
     return (
         <div className="drawer  drawer-end">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />

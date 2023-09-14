@@ -25,6 +25,12 @@ interface newUserProps {
   username: string;
 }
 
+interface availableUser {
+  status: boolean;
+  uid?: string;
+  user?: object;
+}
+
 // const auth = getAuth();
 
 // const existingUser: FunctionComponent<existingUserProps> = () => {
@@ -112,7 +118,7 @@ export const signOutUser = async () => {
  * This function returns the currently signed in user when called
  * @returns user object
  */
-export const getCurrentUser = async (): Promise<object> => {
+export const getCurrentUser = async (): Promise<availableUser> => {
   return new Promise((resolve) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -120,9 +126,7 @@ export const getCurrentUser = async (): Promise<object> => {
         // https://firebase.google.com/docs/reference/js/auth.user
         const uid = user.uid;
         console.log(`User ID of current user is: ${uid}`);
-        console.log(user);
-        console.log({ status: true, uid, user });
-
+        // return an object with user availability status, uid, user object
         resolve({ status: true, uid, user });
       } else {
         // User is signed out
@@ -132,6 +136,11 @@ export const getCurrentUser = async (): Promise<object> => {
     });
   });
 };
+
+/**
+ * returns the user object of a given uid
+ */
+export const getUser = () => {};
 
 // /**
 //  * This function returns the currently signed in user when called
