@@ -25,7 +25,7 @@ export default function NavBar()
 
     }
     return (
-        <div className="drawer drawer-end">
+        <div className="drawer  drawer-end">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content flex flex-col items-center justify-center">
                 {/* Top nav bar */}
@@ -45,7 +45,6 @@ export default function NavBar()
                         </label>
                     </div>
                 </div>
-                <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open drawer</label>
 
             </div>
             <div className="drawer-side">
