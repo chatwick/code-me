@@ -1,18 +1,24 @@
 "use client"
 
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import loginVector from '../../../public/undraw_secure_login_pdn4.svg'
 import { useForm } from 'react-hook-form'
 import { log } from 'console'
 import Link from 'next/link'
 import patternbg from '../public/loginbg.jpg'
 
-
 type Inputs = {
     example: string,
     exampleRequired: string,
 };
+
+type existingUser = {
+    email: string,
+    password: string
+}
+
+
 
 // Strings
 
@@ -24,12 +30,16 @@ export default function SignIn()
         defaultValues: {
             email: "",
             password: "",
-            username: ""
         }
     });
 
-    const handleFormSubmit = async (data: object) =>
+    // states
+    const [userData, setUserData] = useState<existingUser>()
+
+
+    const handleFormSubmit = async (data: existingUser) =>
     {
+        setUserData(data);
         console.log(data);
 
     }
@@ -61,7 +71,7 @@ export default function SignIn()
                                 <label className="label">
                                     <span className="label-text">Enter your email</span>
                                 </label>
-                                <input className='input input-bordered' {...register("email", { required: "Please enter an email" })}/>
+                                <input className='input input-bordered' {...register("email", { required: "Please enter an email" })} />
                                 <p className='pl-3 text-warning'>{errors.email?.message}</p>
                             </div>
 
@@ -75,7 +85,7 @@ export default function SignIn()
                                         value: 8,
                                         message: "Password should be 8 characters long minimum"
                                     }
-                                })}/>
+                                })} />
                                 <p className='pl-3 text-warning'>{errors.password?.message}</p>
                             </div>
 

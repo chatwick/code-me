@@ -1,19 +1,25 @@
 "use client"
 
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import loginVector from '../../../public/undraw_secure_login_pdn4.svg'
 import loginVector2 from './undraw_secure_login_pdn5.svg'
 import { useForm } from 'react-hook-form'
 import { log } from 'console'
 import Link from 'next/link'
 import patternbg from '../public/loginbg.jpg'
-
+import { registerUser } from '@/app/utility/dbFunctions'
 
 type Inputs = {
     example: string,
     exampleRequired: string,
 };
+
+type newUser = {
+    email: string,
+    password: string,
+    username: string
+}
 
 // Strings
 const emailDefault = 'abc@gmail.com'
@@ -30,9 +36,15 @@ export default function Login()
         }
     });
 
-    const handleFormSubmit = async (data: object) =>
+    // states
+    const [userData, setUserData] = useState<newUser>()
+
+    const handleFormSubmit = async (data: newUser) =>
     {
+        setUserData(data);
         console.log(data);
+
+        await registerUser(data)
 
     }
 
