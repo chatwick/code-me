@@ -10,6 +10,7 @@ import { auth, firestore } from "@/config/firebase_config";
 import { log } from "console";
 import React, { FunctionComponent, useState } from "react";
 import { promises } from "dns";
+import { signOutReturn } from "./interfaces";
 
 // consts
 
@@ -31,12 +32,6 @@ interface availableUser {
   user?: object;
 }
 
-// const auth = getAuth();
-
-// const existingUser: FunctionComponent<existingUserProps> = () => {
-//     return (  );
-// }
-
 /**
  *
  * @param newUser - user object to be sent to firebase
@@ -44,28 +39,32 @@ interface availableUser {
  */
 export const registerUser = async (newUser: newUserProps) => {
   const { email, password } = newUser;
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+    console.log("Successfully created account");
+    console.log(user);
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log("Successfully created account");
-      console.log(user);
-
-      return {
-        status: true,
-        message: "Successfully created user",
-      };
-    })
+    return {
+      status: true,
+      message: "Successfully created account",
+    };
+  } catch (error) {
     // await updateProfile(auth.currentUser, displayName: )
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
+    let errorMessage = "";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
 
-      return {
-        status: false,
-        message: `Encountered an error during registration. Error code: ${errorCode}`,
-      };
-    });
+    return {
+      status: false,
+      message: `Encountered an error during registration: ${errorMessage}`,
+    };
+  }
 };
 
 /**
@@ -165,4 +164,35 @@ export const getUser = () => {};
 //   });
 //   return result;
 
+// };
+
+// /**
+//  *
+//  * @param newUser - user object to be sent to firebase
+//  * @returns Status object with status and message
+//  */
+// export const registerUser = async (newUser: newUserProps) => {
+//   const { email, password } = newUser;
+
+//   createUserWithEmailAndPassword(auth, email, password)
+//     .then((userCredential) => {
+//       const user = userCredential.user;
+//       console.log("Successfully created account");
+//       console.log(user);
+
+//       return {
+//         status: true,
+//         message: "Successfully created user",
+//       };
+//     })
+//     // await updateProfile(auth.currentUser, displayName: )
+//     .catch((error) => {
+//       const errorCode = error.code;
+//       const errorMessage = error.message;
+
+//       return {
+//         status: false,
+//         message: `Encountered an error during registration. Error code: ${errorCode}`,
+//       };
+//     });
 // };

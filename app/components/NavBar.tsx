@@ -35,6 +35,11 @@ export default function NavBar()
        console.log("handleAccountBtnClick called");
         
        console.log(result);
+       if (result.status) {
+        router.push(`/user/${result.uid}`)
+       }else{
+        router.push('/user/signin');
+       }
 
     }
     
