@@ -8,7 +8,7 @@ import {AiOutlineCodeSandbox} from "react-icons/ai"
 import {MdForum} from "react-icons/md"
 import {BiSolidHelpCircle} from "react-icons/bi"
 import {FcHeatMap} from "react-icons/fc"
-
+import { getCurrentUser } from '../utility/dbFunctions';
 
 export default function NavBar()
 {
@@ -24,6 +24,15 @@ export default function NavBar()
         }
 
     }
+
+    const handleAccountBtnClick = async () =>{
+       const user = getCurrentUser();
+       console.log("handleAccountBtnClick called");
+       
+    }
+    
+
+
     return (
         <div className="drawer  drawer-end">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -31,7 +40,7 @@ export default function NavBar()
                 {/* Top nav bar */}
                 <div className="navbar bg-base-100">
                     <div className="flex-none">
-                        <button className="btn btn-square btn-ghost">
+                        <button className="btn btn-square btn-ghost" onClick={handleAccountBtnClick}>
                             <VscAccount size={25} />
                             {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg> */}
                         </button>
