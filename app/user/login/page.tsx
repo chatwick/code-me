@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import React from 'react'
-import loginVector from '../../public/undraw_secure_login_pdn4.svg'
+import loginVector from '../../../public/undraw_secure_login_pdn4.svg'
 import loginVector2 from './undraw_secure_login_pdn5.svg'
 import { useForm } from 'react-hook-form'
 import { log } from 'console'

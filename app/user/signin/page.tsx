@@ -2,8 +2,7 @@
 
 import Image from 'next/image'
 import React from 'react'
-import loginVector from '../../public/undraw_secure_login_pdn4.svg'
-import loginVector2 from './undraw_secure_login_pdn5.svg'
+import loginVector from '../../../public/undraw_secure_login_pdn4.svg'
 import { useForm } from 'react-hook-form'
 import { log } from 'console'
 import Link from 'next/link'
@@ -52,7 +51,7 @@ export default function SignIn()
                 <div className="card-body my-10">
                     <div className="prose lg:prose-lg justify-center flex flex-col items-center prose-headings:text-center ">
                         <h1 className=''>Login</h1>
-                        <p className=''>Enter an your account details to login</p>
+                        <p className=''>Enter your account details to login</p>
 
                     </div>
                     <form className='my-5' onSubmit={handleSubmit(handleFormSubmit)}>
