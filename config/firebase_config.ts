@@ -33,3 +33,4 @@ const functions = getFunctions();
 const projectId = firebaseConfig.projectId;
 
 export { firestore, auth, functions, projectId };
+
