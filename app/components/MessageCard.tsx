@@ -6,9 +6,10 @@ type Message = {
     message: string
     user: string
     userImage:string
-    dateTime: any
+    date: any
+    time: any
 }
-const MessageCard:FC <Message> = ({message,user,dateTime,userImage}):JSX.Element => {
+const MessageCard:FC <Message> = ({message,user,date, time,userImage}):JSX.Element => {
     return (
         <>
             <div className="chat chat-start">
@@ -19,11 +20,11 @@ const MessageCard:FC <Message> = ({message,user,dateTime,userImage}):JSX.Element
                 </div>
                 <div className="chat-header gap-1">
                     {user} &nbsp;
-                    <time className="text-xs opacity-50">12:45</time>
+                    <time className="text-xs opacity-50">{time}</time>
                 </div>
                 <div className="chat-bubble chat-bubble-primary">{message}</div>
                 <div className="chat-footer opacity-50">
-                    {dateTime}
+                    {date}
                 </div>
             </div>
         </>
