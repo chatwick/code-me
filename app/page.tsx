@@ -66,7 +66,7 @@ useEffect(()=>{
    receiveData()
 },[])
 
-
+//This is test
 async function sendMessage(event: React.FormEvent<HTMLFormElement>) {
   event.preventDefault(); 
   if(!message){
