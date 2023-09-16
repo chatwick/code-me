@@ -139,7 +139,14 @@ export const getCurrentUser = async (): Promise<availableUser> => {
 /**
  * returns the user object of a given uid
  */
-export const getUser = () => {};
+export const getUserByID = async () => {
+
+};
+
+
+
+
+
 
 // /**
 //  * This function returns the currently signed in user when called

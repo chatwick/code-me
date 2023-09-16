@@ -1,23 +1,59 @@
 "use client"
 
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { VscAccount } from "react-icons/vsc";
-import {GoHomeFill} from "react-icons/go"
-import {AiOutlineCodeSandbox} from "react-icons/ai"
-import {MdForum} from "react-icons/md"
-import {BiSolidHelpCircle} from "react-icons/bi"
-import {FcHeatMap} from "react-icons/fc"
+import { GoHomeFill } from "react-icons/go"
+import { AiOutlineCodeSandbox } from "react-icons/ai"
+import { MdForum } from "react-icons/md"
+import { BiSolidHelpCircle } from "react-icons/bi"
+import { FcHeatMap } from "react-icons/fc"
 import { getCurrentUser } from '../utility/dbFunctions';
 import { useRouter } from 'next/navigation';
+import { create } from 'zustand';
+import { availableUser } from '../utility/interfaces';
+import useUserStore from '../contexts/userStore';
 
-export default function NavBar()
+
+// export const loader = async () =>
+// {
+//     const [user, setUser] = useState<availableUser | null>()
+//     // userstore
+//     const userStore = create((set) => ({ user: result.user }))
+
+//     useEffect(() =>
+//     {
+//         const loadUser = async () =>
+//         {
+//             try
+//             {
+//                 const result = await getCurrentUser();
+//                 console.log("loader() in NavBar called");
+
+//                 if (result.status)
+//                 {
+//                     setUser(result.user)
+//                 }
+//             } catch (error)
+//             {
+
+//             }
+//         }
+
+//     }, [])
+// }
+
+
+function NavBar()
 {
     // states
     const [drawerOpen, setDrawerOpen] = useState(false);
 
+    // hooks
     // routerhook
     const router = useRouter();
+
+    const setUser = useUserStore((state) => state.setUser);
 
     // close drawer fucntion -- redundant
     const closeDrawer: any = () =>
@@ -30,19 +66,23 @@ export default function NavBar()
 
     }
 
-    const handleAccountBtnClick = async () =>{
-       const result = await getCurrentUser();
-       console.log("handleAccountBtnClick called");
-        
-       console.log(result);
-       if (result.status) {
-        router.push(`/user/${result.uid}`)
-       }else{
-        router.push('/user/signin');
-       }
+    const handleAccountBtnClick = async () =>
+    {
+        const result = await getCurrentUser();
+        console.log("handleAccountBtnClick called");
+
+        console.log(result);
+        if (result.status)
+        {
+            setUser(result.user)
+            router.push(`/user/${result.uid}`)
+        } else
+        {
+            router.push('/user/signin');
+        }
 
     }
-    
+
     return (
         <div className="drawer  drawer-end">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -59,7 +99,7 @@ export default function NavBar()
                         <Link className='btn btn-ghost normal-case text-xl' href="/">CODE ME</Link>
                     </div>
                     <div className="flex-none">
-                    <label htmlFor="my-drawer-2" className="btn btn-square btn-ghost drawer-button">
+                        <label htmlFor="my-drawer-2" className="btn btn-square btn-ghost drawer-button">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                         </label>
                     </div>
@@ -70,12 +110,12 @@ export default function NavBar()
                 <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
                 <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content text-lg font-semibold">
                     {/* Sidebar content here */}
-                    <li><Link className='text-blue-500' href="/"> <GoHomeFill size={22}/> Home</Link></li>
-                    <li><Link className='text-blue-500' href="/editor/new-editor"> <AiOutlineCodeSandbox size={25}/> Editor</Link></li>
-                    <li><Link className='text-blue-500' href="/"><MdForum/> Forum</Link></li>
+                    <li><Link className='text-blue-500' href="/"> <GoHomeFill size={22} /> Home</Link></li>
+                    <li><Link className='text-blue-500' href="/editor/new-editor"> <AiOutlineCodeSandbox size={25} /> Editor</Link></li>
+                    <li><Link className='text-blue-500' href="/"><MdForum /> Forum</Link></li>
                     <hr className='my-4' />
-                    <li><Link className='text-blue-400' href="/"><BiSolidHelpCircle/>Error helper</Link></li>
-                    <li><Link className='text-blue-400' href="/"><FcHeatMap size={22}/>Code Visualizer</Link></li>
+                    <li><Link className='text-blue-400' href="/"><BiSolidHelpCircle />Error helper</Link></li>
+                    <li><Link className='text-blue-400' href="/"><FcHeatMap size={22} />Code Visualizer</Link></li>
                 </ul>
 
 
@@ -83,4 +123,6 @@ export default function NavBar()
         </div>
     )
 }
+
+export default NavBar
 

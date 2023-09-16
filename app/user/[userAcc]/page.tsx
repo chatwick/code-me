@@ -1,29 +1,48 @@
 "use client"
 
-import { signOutUser } from '@/app/utility/dbFunctions'
+import { getCurrentUser, signOutUser } from '@/app/utility/dbFunctions'
 import { useParams, useRouter } from 'next/navigation'
-import React from 'react'
-
-// interfaces
-interface availableUser
-{
-  status: boolean,
-  uid: string,
-  user: object,
-}
-
-
-
+import React, { useContext, useEffect, useState } from 'react'
+import { userParams } from '@/app/utility/interfaces'
+import { UserContext } from '@/app/contexts/UserContext'
+import { availableUser } from '@/app/utility/interfaces'
+import useUserStore from '@/app/contexts/userStore'
 
 // initializing params hoook
-const UserAccount = ({ status, uid, user }: availableUser) =>
+const UserAccount = ({ params }: userParams) =>
 {
   // url parameters
-  const params = useParams();
+  // const params = useParams();
   const id = params.userAcc
+  const [user, setUser] = useState<availableUser | null>()
+
+  const userAcc: any = useUserStore((state) => state.user);
 
   // routerhook
   const router = useRouter();
+  // contexts
+  const userC = useContext(UserContext);
+
+  // useEffect(() =>
+  // {
+  //   const loadUser = async () =>
+  //   {
+  //     try
+  //     {
+  //       const result = await getCurrentUser();
+  //       if (result.status)
+  //       {
+  //         setUser(result.user)
+  //       }
+  //     } catch (error)
+  //     {
+
+  //     }
+  //   }
+
+  // }, [])
+
+
 
   /**
    * @remark Signs out user when clicked
@@ -43,8 +62,10 @@ const UserAccount = ({ status, uid, user }: availableUser) =>
 
   return (
     <>
-      <div>UserAccount {id}</div>
-
+      <div>UserAccount of {id}</div>
+      <div>
+        {userAcc.email}
+      </div>
       <button className='btn btn-primary' onClick={handleSignOut}>Signout</button>
     </>
   )
