@@ -74,7 +74,7 @@ export default function NavBar()
                     <li><Link className='text-blue-500' href="/editor/new-editor"> <AiOutlineCodeSandbox size={25}/> Editor</Link></li>
                     <li><Link className='text-blue-500' href="/"><MdForum/> Forum</Link></li>
                     <hr className='my-4' />
-                    <li><Link className='text-blue-400' href="/"><BiSolidHelpCircle/>Error helper</Link></li>
+                    <li><Link className='text-blue-400' href="/editor/errorHelper"><BiSolidHelpCircle/>Error helper</Link></li>
                     <li><Link className='text-blue-400' href="/"><FcHeatMap size={22}/>Code Visualizer</Link></li>
                 </ul>
 
