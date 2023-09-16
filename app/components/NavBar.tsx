@@ -7,11 +7,17 @@ import {GoHomeFill} from "react-icons/go"
 import {AiOutlineCodeSandbox} from "react-icons/ai"
 import {MdForum} from "react-icons/md"
 import {BiSolidHelpCircle} from "react-icons/bi"
-
+import {FcHeatMap} from "react-icons/fc"
+import { getCurrentUser } from '../utility/dbFunctions';
+import { useRouter } from 'next/navigation';
 
 export default function NavBar()
 {
+    // states
     const [drawerOpen, setDrawerOpen] = useState(false);
+
+    // routerhook
+    const router = useRouter();
 
     // close drawer fucntion -- redundant
     const closeDrawer: any = () =>
@@ -23,14 +29,28 @@ export default function NavBar()
         }
 
     }
+
+    const handleAccountBtnClick = async () =>{
+       const result = await getCurrentUser();
+       console.log("handleAccountBtnClick called");
+        
+       console.log(result);
+       if (result.status) {
+        router.push(`/user/${result.uid}`)
+       }else{
+        router.push('/user/signin');
+       }
+
+    }
+    
     return (
-        <div className="drawer drawer-end">
+        <div className="drawer  drawer-end">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content flex flex-col items-center justify-center">
                 {/* Top nav bar */}
                 <div className="navbar bg-base-100">
                     <div className="flex-none">
-                        <button className="btn btn-square btn-ghost">
+                        <button className="btn btn-square btn-ghost" onClick={handleAccountBtnClick}>
                             <VscAccount size={25} />
                             {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg> */}
                         </button>
@@ -44,7 +64,6 @@ export default function NavBar()
                         </label>
                     </div>
                 </div>
-                <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open drawer</label>
 
             </div>
             <div className="drawer-side">
@@ -56,6 +75,7 @@ export default function NavBar()
                     <li><Link className='text-blue-500' href="/"><MdForum/> Forum</Link></li>
                     <hr className='my-4' />
                     <li><Link className='text-blue-400' href="/editor/errorHelper"><BiSolidHelpCircle/>Error helper</Link></li>
+                    <li><Link className='text-blue-400' href="/"><FcHeatMap size={22}/>Code Visualizer</Link></li>
                 </ul>
 
 
