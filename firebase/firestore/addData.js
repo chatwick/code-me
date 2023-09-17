@@ -8,6 +8,7 @@ export default async function addData(data) {
     const docRef = await addDoc(collection(db, "discussion"), data)
 
     const updateTimestamp = await updateDoc(docRef, {
+      id:docRef.id,
       timestamp: serverTimestamp(),
       updatedDate: new Date().toDateString(),
       updatedTime: new Date().toLocaleTimeString()
