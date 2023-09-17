@@ -1,11 +1,11 @@
 "use client"
 import MessageCard  from "./components/MessageCard";
-//import { collection, getDocs} from "firebase/firestore";
 import addData from "@/firebase/firestore/addData";
 import getData from "@/firebase/firestore/getData";
 import { useState, useEffect } from "react";
 
 type Message = {
+  id: string
   message: string
   user: string
   userImage:string
@@ -60,7 +60,9 @@ export default function Home() {
 // }
 async function receiveData(){
   const newData:any = await getData()
+  console.log(newData)
   setData(newData)
+  
 }
 useEffect(()=>{
    receiveData()
@@ -87,7 +89,9 @@ async function sendMessage(event: React.FormEvent<HTMLFormElement>) {
 
 const renderMessage = data.map((msg) =>{
   //for(var msg of data){
+   // console.log(msg.id)
     const newMessage={
+      id:msg.id,
       message:msg.message,
       user:msg.user,
       userImage:"/user2.png",
@@ -95,7 +99,7 @@ const renderMessage = data.map((msg) =>{
       time:msg.updatedTime.toString()
     }
       return(
-        <MessageCard {...newMessage}/>
+        <MessageCard key={newMessage.id} {...newMessage}/>
       )
   //}
 })
