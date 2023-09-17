@@ -25,9 +25,9 @@ const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage }):
         console.log(newData.message)
     }
 
-    const openModal = () => {
+    // const openModal = () => {
 
-    }
+    // }
 
     const deleteMessage = async () => {
         try {
@@ -43,9 +43,6 @@ const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage }):
         //window.location.reload()
     }
 
-    useEffect(() => {
-        getData();
-    }, [id]);
     //console.log(data)
 
     return (
@@ -73,7 +70,7 @@ const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage }):
                                 <div className="modal-box">
                                     <h3 className="font-bold text-lg">Update Message</h3>
                                     <p className="py-4">Press ESC key or click the button below to close</p>
-                                    <textarea name="msg" value={message} onChange={(e) => setUpdatedData(e.target.value)} className="textarea textarea-bordered textarea-lg w-full max-w-xs flex items-stretch" />
+                                    <textarea name="msg" onChange={(e) => setUpdatedData(e.target.value)} value={updatedData} className="textarea textarea-bordered textarea-lg w-full max-w-xs flex items-stretch"/>
                                     <div className="modal-action">
                                         <form method="dialog">
                                             <button className="btn" onClick={updateMessage}>Update</button>
