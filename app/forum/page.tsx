@@ -107,24 +107,26 @@ const renderMessage = data.map((msg) =>{
 })
 
   return (
-    <div className="flex flex-col h-screen">
-    <header className="flex justify-between items-center mb-4">
-      <h1 className="text-2xl">Discussion Forum</h1>
+    <div className="flex flex-col">
+    <div>
+    <header className="flex justify-between ml-4 items-center mb-4">
+    <h1 className="text-2xl">Discussion Forum</h1>
     </header>
     {renderMessage}
-    {/* <MessageCard {...newMessage}/>
-    <MessageCard {...newMessage2}/>
-    <MessageCard {...newMessage3}/>
-    <MessageCard {...newMessage4}/>
-    <MessageCard {...newMessage5}/>
-    <MessageCard {...newMessage6}/> */}
-    <form className="flex-grow" onSubmit={sendMessage}>
-    <textarea name="msg" value={message} onChange={(e) => setMessage(e.target.value)} className="textarea textarea-bordered textarea-lg w-full max-w-xs flex items-stretch"/>
-    <label className="label">
-    <span id="error" className="label-text-alt text-red-600"></span>
-    </label>
-    <button type="submit" className="border border-slate-300 text-slate-300 px-2 py-1 rounded hover:bg-slate-700 focus-within:bg-slate-700 outline-none">Send</button>
+    </div>
+    <div>
+    <form onSubmit={sendMessage}>
+      <div className="fixed bottom-0 left-0 right-0 p-6">
+      <div className="container flex justify-start items-center">
+      <textarea name="msg" value={message} onChange={(e) => setMessage(e.target.value)} className="textarea textarea-bordered textarea-lg w-full lg:w-3/4 xl:w-2/3 2xl:w-1/2 mr-2"/>
+      <button type="submit" className="btn btn-primary">Send</button>
+      </div>
+      <label className="label">
+      <span id="error" className="label-text-alt text-red-600"></span>
+      </label>
+      </div>
     </form>
+    </div>
     </div>
   )
 }
