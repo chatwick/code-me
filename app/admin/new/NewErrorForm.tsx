@@ -1,23 +1,25 @@
 "use client"
 
-import { Alert } from '../components/Alert'
+import toast, { Toaster } from 'react-hot-toast';
 import { useState } from 'react';
 
-import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
-import firestore from "../../config/firebase_cs";
+import firestore from "../../../config/firebase_cs";
+import { useRouter } from 'next/navigation';
 
 
 
 function NewErrorForm(){
 	const [errorId, setErrorId] = useState('');
 	const [description, setDescription] = useState('');
+	const route = useRouter();
 
 	const docRef = firestore.collection('error-explanations');
 
 	// create new error
 	const save = async(event: React.SyntheticEvent) => {
 		event.preventDefault();
+		const savingToast = toast.loading('Saving...', {style:{minWidth: '250px'}});
 		try {
 			// create new document
 			await docRef.doc(errorId).set({
@@ -30,15 +32,16 @@ function NewErrorForm(){
 			setDescription('');
 
 			// success message
-			Alert({message:'New Error added', type:'success'})
+			toast.success('New Error added', {id: savingToast, style:{minWidth: '250px'}});
 		} catch (error) {
 			console.error(error);
-			Alert({message:"something went wrong :(", type:'error'});
+			toast.error('something went wrong 🙁', {id: savingToast, style:{minWidth: '250px'}});
 		}
 	}
 
 	return(
 		<div className="2xl:container 2xl:mx-auto m-7">
+			<Toaster />
 			<br />
 			<form action="" method="post" className="form-control w-full max-w-[100%]" onSubmit={save}>
 				{/* error name/ID */}
@@ -55,9 +58,12 @@ function NewErrorForm(){
 				</textarea> <br />
 
 				{/* buttons */}
-				<div className="flex space-x-4">
+				<div className="flex space-x-4 justify-end items-center">
 					<button className="btn btn-accent w-28" type='submit'>Save</button>
-					<button className="btn btn-outline btn-error w-28">Cancel</button>
+					<button className="btn btn-outline btn-error w-28" 
+					onClick={() => route.push('/admin')} >
+						Cancel
+					</button>
 				</div>
 			</form>
 		</div>

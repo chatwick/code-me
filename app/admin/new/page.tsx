@@ -1,14 +1,12 @@
-import MainUI from "./mainUI";
+import NewErrorForm from './NewErrorForm'
 
-export default function AdminUI() {
+export default function AdminNew() {
 
   return (
     <main>
         <div className="overlay rounded-md w-full h-full shadow-4xl">
-					<MainUI />
+					<NewErrorForm />
         </div>
     </main>
-
-
   )
 }
