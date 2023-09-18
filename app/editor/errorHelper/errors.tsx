@@ -2,10 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { collection, doc, getDoc, getFirestore } from 'firebase/firestore';
-import { app, firestore, auth, functions, projectId } from '../../../config/firebase_config'
+import { firestore, auth, functions, projectId } from '../../../config/firebase_config'
 import { child, get, getDatabase, ref } from 'firebase/database';
 
-const db = getFirestore(app);
 
 // TODO: set this dynamically later
 // const errors = ['NullPointerException', 'ArithmeticException'];
@@ -20,7 +19,7 @@ function ErrorList() {
 	useEffect(() => {
 		const fetchDocuments = async () => {
 			const dataPromises = errors.map(async (errors) => {
-				const docRef = doc(db, `error-explanations/${errors.error}`);
+				const docRef = doc(firestore, `error-explanations/${errors.error}`);
 
 				try {
 					const docSnap = await getDoc(docRef);

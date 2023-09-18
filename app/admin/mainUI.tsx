@@ -63,7 +63,7 @@ function MainUI() {
 							<div className="card-body">
 								<h2 className="card-title">{error}</h2>
 								<div className="card-actions justify-end">
-									<button className="btn btn-info w-28" 
+									<button className="btn btn-outline btn-info w-28" 
 									onClick={(e) => route.push('/admin/edit')} >Edit</button>
 								</div>
 							</div>
