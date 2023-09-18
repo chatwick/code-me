@@ -11,6 +11,7 @@ type Message = {
   userImage:string
   updatedDate: any
   updatedTime:any
+  edited: boolean
 }
 
 export default function Home() {
@@ -96,7 +97,8 @@ const renderMessage = data.map((msg) =>{
       user:msg.user,
       userImage:"/user2.png",
       date:msg.updatedDate.toString(),
-      time:msg.updatedTime.toString()
+      time:msg.updatedTime.toString(),
+      edited:msg.edited
     }
       return(
         <MessageCard key={newMessage.id} {...newMessage}/>

@@ -3,7 +3,7 @@ import userPic from '../assets/user1.png'
 import getDataId from "@/firebase/firestore/getDataId";
 import deleteData from "@/firebase/firestore/deleteData";
 import updateData from "@/firebase/firestore/updateData";
-import { useState, FC, useEffect } from 'react'
+import { useState, FC, useEffect, useRef } from 'react'
 
 type Message = {
     id: string
@@ -12,22 +12,23 @@ type Message = {
     userImage: string
     date: any
     time: any
+    edited: boolean
 }
 
 
-const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage }): JSX.Element => {
+const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage, edited }): JSX.Element => {
     const [updatedData, setUpdatedData] = useState(message);
+    const modalRef = useRef<HTMLDialogElement | null>(null)
 
     const getData = async () => {
+       try{
         const newData: any = await getDataId(id)
         setUpdatedData(newData.message)
-        console.log(newData)
-        console.log(newData.message)
+       }catch(error){
+        console.log("Error: ",error)
+       }
+
     }
-
-    // const openModal = () => {
-
-    // }
 
     const deleteMessage = async () => {
         try {
@@ -39,10 +40,40 @@ const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage }):
     }
 
     const updateMessage = async () => {
-        await updateData(id, updatedData)
-        //window.location.reload()
+        try{
+            await updateData(id, updatedData)
+            closeModal()
+            window.location.reload();
+        }catch(error){
+            console.error("Error updating message: ",error)
+        }
     }
 
+    const openModal = () => {
+        getData();
+        if(modalRef.current){
+            modalRef.current.showModal()
+        }
+    }
+
+    const closeModal = () => {
+        setUpdatedData(message);
+        if(modalRef.current){
+            modalRef.current.close()
+        }
+    }
+
+    const isEdit = () => {
+        if(edited.toString()==="true"){
+            return(
+                <span id="edit" className="label-text-alt text-yellow-400">&nbsp; Edited *</span>
+            )
+        }
+    }
+
+    useEffect(()=>{
+        getData()
+     },[id])
     //console.log(data)
 
     return (
@@ -56,29 +87,12 @@ const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage }):
                 <div className="chat-header gap-1">
                     {user} &nbsp;
                     <time className="text-xs opacity-50">{time}</time>
-                    <div className="dropdown dropdown-end">
+                    <div className="dropdown">
                         <label tabIndex={0} className="btn btn-circle btn-ghost btn-xs text-info">
                             &#xFE19;
                         </label>
                         <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                            <li><button onClick={()=>{
-                                        getData()
-                                        const modal = document.getElementById('editModal') as HTMLDialogElement
-                                        modal.showModal()
-                            }}>Edit</button></li>
-                            <dialog id="editModal" className="modal">
-                                <div className="modal-box">
-                                    <h3 className="font-bold text-lg">Update Message</h3>
-                                    <p className="py-4">Press ESC key or click the button below to close</p>
-                                    <textarea name="msg" onChange={(e) => setUpdatedData(e.target.value)} value={updatedData} className="textarea textarea-bordered textarea-lg w-full max-w-xs flex items-stretch"/>
-                                    <div className="modal-action">
-                                        <form method="dialog">
-                                            <button className="btn" onClick={updateMessage}>Update</button>
-                                            <button className="btn">Cancel</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </dialog>
+                            <li><button onClick={openModal}>Edit</button></li>          
                             <li><button onClick={deleteMessage}>Delete</button></li>
                         </ul>
                     </div>
@@ -88,8 +102,23 @@ const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage }):
                 </div>
                 <div className="chat-footer opacity-50">
                     {date}
+                    {isEdit()}
                 </div>
             </div>
+
+            <dialog ref={modalRef} className="modal">
+                                <div className="modal-box">
+                                    <h3 className="font-bold text-lg">Update Message</h3>
+                                    <p className="py-4">Press ESC key or click the button below to close</p>                             
+                                    <textarea name="msg" value={updatedData} onChange={(e) => setUpdatedData(e.target.value)}  className="textarea textarea-bordered textarea-lg w-full max-w-xs flex items-stretch"/>
+                                    <div className="modal-action">
+                                        <form method="dialog">
+                                            <button className="btn" onClick={updateMessage}>Update</button>
+                                            <button className="btn" onClick={closeModal}>Cancel</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </dialog>
 
         </>
     )
