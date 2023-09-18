@@ -1,7 +1,7 @@
 "use client"
-import MessageCard  from "./components/MessageCard";
-import addData from "@/firebase/firestore/addData";
-import getData from "@/firebase/firestore/getData";
+import MessageCard  from "../components/MessageCard";
+import addData from "@/config/firestore/addData";
+import getData from "@/config/firestore/getData";
 import { useState, useEffect } from "react";
 
 type Message = {

@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import userPic from '../assets/user1.png'
-import getDataId from "@/firebase/firestore/getDataId";
-import deleteData from "@/firebase/firestore/deleteData";
-import updateData from "@/firebase/firestore/updateData";
+import getDataId from "@/config/firestore/getDataId";
+import deleteData from "@/config/firestore/deleteData";
+import updateData from "@/config/firestore/updateData";
 import { useState, FC, useEffect, useRef } from 'react'
 
 type Message = {
