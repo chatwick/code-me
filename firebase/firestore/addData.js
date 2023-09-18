@@ -11,6 +11,7 @@ export default async function addData(data) {
       id:docRef.id,
       timestamp: serverTimestamp(),
       updatedDate: new Date().toDateString(),
-      updatedTime: new Date().toLocaleTimeString()
+      updatedTime: new Date().toLocaleTimeString(),
+      edited: false
   });
 }

@@ -11,6 +11,7 @@ export default async function updateData(id,data) {
     const updateTimestamp = await updateDoc(docRef, {
         timestamp: serverTimestamp(),
         updatedDate: new Date().toDateString(),
-        updatedTime: new Date().toLocaleTimeString()
+        updatedTime: new Date().toLocaleTimeString(),
+        edited: true
     });
 }
