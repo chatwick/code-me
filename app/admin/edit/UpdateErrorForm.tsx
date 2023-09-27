@@ -17,6 +17,22 @@ function UpdateErrorForm(){
 
 	const docRef = firestore.collection('error-explanations');
 
+	// get description
+	const fetchDescription = async () => {
+		try {
+			const docSnapshot = await docRef.doc(errorId).get();
+			if (docSnapshot.exists) {
+				const existingDescription = docSnapshot.data()?.description || '';
+				setDescription(existingDescription);
+			} else {
+				console.error(`Document ID "${errorId}" does not exist.`);
+			}
+		} catch (error) {
+			console.error('error fetching description\n' + error);
+		}
+	}
+	fetchDescription();
+
 	// update error
 	const save = async(event: React.SyntheticEvent) => {
 		event.preventDefault();
