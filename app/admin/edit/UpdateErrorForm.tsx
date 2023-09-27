@@ -5,22 +5,23 @@ import { useState } from 'react';
 
 import 'firebase/compat/firestore';
 import firestore from "../../../config/firebase_cs";
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 
 
 function UpdateErrorForm(){
-	const errorId = 'errorID';
+	const searchParams = useSearchParams();
+	const errorId = searchParams.get('errorID') || 'errorID' as string;
 	const [description, setDescription] = useState('');
 	const route = useRouter();
 
 	const docRef = firestore.collection('error-explanations');
 
-	// create new error
+	// update error
 	const save = async(event: React.SyntheticEvent) => {
 		event.preventDefault();
 		try {
-			// create new document
+			// update document
 			await docRef.doc(errorId).update({
 				description: description
 			});

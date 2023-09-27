@@ -15,7 +15,7 @@ function MainUI() {
 		const fetchErrorList = async () => {
 			try {
 				const querySnapshot = await firestore.collection('error-explanations').get();
-				const errors:string[] = [];
+				const errors: string[] = [];
 				querySnapshot.forEach((doc) => {errors.push(doc.id)});
 				setErrorList(errors);
 			} catch (error) {
@@ -64,7 +64,7 @@ function MainUI() {
 								<h2 className="card-title">{error}</h2>
 								<div className="card-actions justify-end">
 									<button className="btn btn-outline btn-info w-28" 
-									onClick={(e) => route.push('/admin/edit')} >Edit</button>
+									onClick={(e) => route.push(`/admin/edit?errorID=${error}`)} >Edit</button>
 								</div>
 							</div>
 						</div>
