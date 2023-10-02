@@ -107,7 +107,7 @@ const renderMessage = data.map((msg) =>{
 })
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-screen">
     <div>
     <header className="flex justify-between ml-4 items-center mb-4">
     <h1 className="text-2xl">Discussion Forum</h1>
@@ -116,9 +116,9 @@ const renderMessage = data.map((msg) =>{
     </div>
     <div>
     <form onSubmit={sendMessage}>
-      <div className="fixed bottom-0 left-0 right-0 p-6">
+      <div className="flex-grow bottom-0 left-0 right-0 p-6">
       <div className="container flex justify-start items-center">
-      <textarea name="msg" value={message} onChange={(e) => setMessage(e.target.value)} className="textarea textarea-bordered textarea-lg w-full lg:w-3/4 xl:w-2/3 2xl:w-1/2 mr-2"/>
+      <textarea name="msg" value={message} onChange={(e) => setMessage(e.target.value)} className="textarea textarea-bordered textarea-lg w-full lg:w-3/4 xl:w-2/3 2xl:w-1/2 mr-20"/>
       <button type="submit" className="btn btn-primary">Send</button>
       </div>
       <label className="label">
