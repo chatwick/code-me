@@ -94,24 +94,22 @@ const renderMessage = filteredData.map((msg) =>{
     <header className="flex justify-between ml-4 items-center mb-4">
     <h1 className="text-2xl">Discussion Forum</h1>
     </header>
-    <div className="flex justify-center fixed top-15 left-0 right-0">
+    <div className="flex justify-center fixed top-12 left-0 right-0">
     <input type="text" className="input input-bordered input-info w-1/2 p-15" id="searchMessage" placeholder="Enter Search Keyword" value={Keyword} onChange={(e) => setKeyword(e.target.value)} />
     </div>
-    <div className="h-6">
+    <div id="messageBlock" className="max-h-[450px] overflow-y-auto overflow-x-hidden">
     {renderMessage}
     </div>
     </div>
-    <div className="flex justify-center fixed bottom-5 left-0 right-0">
+    <div className="fixed bottom-0 left-0 right-0 px-8">
     <form onSubmit={sendMessage}>
-      <div className="flex-grow bottom-0 left-0 right-0 p-6">
-      <div className="container flex justify-start items-center">
+      <div className="flex justify-start items-center">
       <textarea name="msg" value={message} onChange={(e) => setMessage(e.target.value)} className="textarea textarea-bordered textarea-lg w-full lg:w-3/4 xl:w-2/3 2xl:w-1/2 mr-20"/>
       <button type="submit" className="btn btn-primary">Send</button>
       </div>
       <label className="label">
       <span id="error" className="label-text-alt text-red-600"></span>
       </label>
-      </div>
     </form>
     </div>
     </div>
