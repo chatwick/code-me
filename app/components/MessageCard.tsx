@@ -95,6 +95,7 @@ const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage, ed
     if(auth==user){
         style = "chat chat-end relative"
         color = "chat-bubble chat-bubble-warning"
+        userImage = "/user1.png"
     }
 
     useEffect(()=>{

@@ -97,7 +97,7 @@ const renderMessage = filteredData.map((msg) =>{
     <div className="flex justify-center fixed top-12 left-0 right-0">
     <input type="text" className="input input-bordered input-info w-1/2 p-15" id="searchMessage" placeholder="Enter Search Keyword" value={Keyword} onChange={(e) => setKeyword(e.target.value)} />
     </div>
-    <div id="messageBlock" className="max-h-[450px] overflow-y-auto overflow-x-hidden">
+    <div id="messageBlock" className="max-h-[450px] overflow-y-auto overflow-x-hidden px-8">
     {renderMessage}
     </div>
     </div>
