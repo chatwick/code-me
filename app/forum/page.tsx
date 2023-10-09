@@ -3,6 +3,7 @@ import MessageCard  from "../components/MessageCard";
 import addData from "@/config/firestore/addData";
 import getData from "@/config/firestore/getData";
 import { useState, useEffect } from "react";
+import { getCurrentUser } from "../utility/dbFunctions";
 
 type Message = {
   id: string
@@ -14,59 +15,28 @@ type Message = {
   edited: boolean
 }
 
-export default function Home() {
+export default function Forum() {
 
   const [message,setMessage] = useState("");
+  const [user,setUser] = useState("");
   const [data, setData] = useState<Message[]>([]);
-
-//  const newMessage={
-//     message:"Hi I am new to Java",
-//     user:"John Smith",
-//     userImage:"/user1.png",
-//     dateTime:"24-12-2023"
-//  }
-
-//  const newMessage2={
-//   message:"Can you help me to understand OOP Concepts",
-//   user:"John Smith",
-//   userImage:"/user1.png",
-//   dateTime:"24-12-2023"
-// }
-
-// const newMessage3={
-//   message:"I think I have difficulty in understanding Abstaction and Encapsulation",
-//   user:"John Smith",
-//   userImage:"/user1.png",
-//   dateTime:"24-12-2023"
-// }
-
-// const newMessage4={
-//   message:"It will be really helpful if some can share some good tutorials",
-//   user:"John Smith",
-//   userImage:"/user1.png",
-//   dateTime:"24-12-2023"
-// }
-
-// const newMessage5={
-//   message:"You can check this website `https://www.w3schools.com/java/java_oop.asp` it will explain in a simple way",
-//   user:"Dave Gray",
-//   userImage:"/user2.png",
-//   dateTime:"24-12-2023"
-// }
-// const newMessage6={
-//   message:"Free code camp also had a good video on this check that out as well",
-//   user:"Dave Gray",
-//   userImage:"/user2.png",
-//   dateTime:"24-12-2023"
-// }
+ 
 async function receiveData(){
   const newData:any = await getData()
   console.log(newData)
   setData(newData)
-  
 }
+
+async function authenticate(){
+  const currentuser = await getCurrentUser()
+  const newuser:any = currentuser.user
+  setUser(newuser.email)
+  console.log(newuser.email)
+}
+
 useEffect(()=>{
    receiveData()
+   authenticate()
 },[])
 
 
@@ -80,7 +50,7 @@ async function sendMessage(event: React.FormEvent<HTMLFormElement>) {
     error.innerHTML = ""
     const msgData ={
       message,
-      user: "John Smith"
+      user: user
     }
     setMessage("")
     await addData(msgData)
@@ -95,6 +65,7 @@ const renderMessage = data.map((msg) =>{
       id:msg.id,
       message:msg.message,
       user:msg.user,
+      auth:user,
       userImage:"/user2.png",
       date:msg.updatedDate.toString(),
       time:msg.updatedTime.toString(),

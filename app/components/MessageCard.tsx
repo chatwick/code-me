@@ -9,6 +9,7 @@ type Message = {
     id: string
     message: string
     user: string
+    auth: string
     userImage: string
     date: any
     time: any
@@ -16,9 +17,10 @@ type Message = {
 }
 
 
-const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage, edited }): JSX.Element => {
+const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage, edited, auth }): JSX.Element => {
     const [updatedData, setUpdatedData] = useState(message);
     const modalRef = useRef<HTMLDialogElement | null>(null)
+    
 
     const getData = async () => {
        try{
@@ -71,6 +73,30 @@ const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage, ed
         }
     }
 
+    const returnDropdown = () => {
+        if(auth==user){
+            return(
+                <div className="dropdown">
+                <label tabIndex={0} className="btn btn-circle btn-ghost btn-xs text-info">
+                    &#xFE19;
+                </label>
+                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                    <li><button onClick={openModal}>Edit</button></li>          
+                    <li><button onClick={deleteMessage}>Delete</button></li>
+                </ul>
+            </div>
+            )
+        }
+    }
+
+    var style: string = "chat chat-start relative"
+    var color: string ="chat-bubble chat-bubble-success"
+    var userName: any = user.split("@",1)
+    if(auth==user){
+        style = "chat chat-end relative"
+        color = "chat-bubble chat-bubble-warning"
+    }
+
     useEffect(()=>{
         getData()
      },[id])
@@ -78,26 +104,18 @@ const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage, ed
 
     return (
         <>
-            <div className="chat chat-start relative">
+            <div className={style}>
                 <div className="chat-image avatar">
                     <div className="w-10 rounded-full">
                         <Image src={userImage} width={500} height={500} alt="user" />
                     </div>
                 </div>
                 <div className="chat-header gap-1">
-                    {user} &nbsp;
+                    {userName} &nbsp;
                     <time className="text-xs opacity-50">{time}</time>
-                    <div className="dropdown">
-                        <label tabIndex={0} className="btn btn-circle btn-ghost btn-xs text-info">
-                            &#xFE19;
-                        </label>
-                        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                            <li><button onClick={openModal}>Edit</button></li>          
-                            <li><button onClick={deleteMessage}>Delete</button></li>
-                        </ul>
-                    </div>
+                    {returnDropdown()}
                 </div>
-                <div className="chat-bubble chat-bubble-primary">
+                <div className={color}>
                     {message}
                 </div>
                 <div className="chat-footer opacity-50">
