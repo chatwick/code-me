@@ -19,6 +19,7 @@ export default function Forum() {
 
   const [message,setMessage] = useState("");
   const [user,setUser] = useState("");
+  const[Keyword,setKeyword]=useState('');
   const [data, setData] = useState<Message[]>([]);
  
 async function receiveData(){
@@ -26,6 +27,16 @@ async function receiveData(){
   console.log(newData)
   setData(newData)
 }
+
+const filteredData = data.filter((data)=>{
+  const message = data.message.toLowerCase()
+  const user = data.user.toLowerCase()
+  const date = data.updatedDate.toLowerCase()
+  const time = data.updatedTime.toLowerCase()
+  const keyword = Keyword.toLowerCase()
+
+  return message.includes(keyword) || user.includes(keyword) || date.includes(keyword) || time.includes(keyword)
+})
 
 async function authenticate(){
   const currentuser = await getCurrentUser()
@@ -58,7 +69,7 @@ async function sendMessage(event: React.FormEvent<HTMLFormElement>) {
   }
 }
 
-const renderMessage = data.map((msg) =>{
+const renderMessage = filteredData.map((msg) =>{
   //for(var msg of data){
    // console.log(msg.id)
     const newMessage={
@@ -78,14 +89,19 @@ const renderMessage = data.map((msg) =>{
 })
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen relative">
     <div>
     <header className="flex justify-between ml-4 items-center mb-4">
     <h1 className="text-2xl">Discussion Forum</h1>
     </header>
+    <div className="flex justify-center fixed top-15 left-0 right-0">
+    <input type="text" className="input input-bordered input-info w-1/2 p-15" id="searchMessage" placeholder="Enter Search Keyword" value={Keyword} onChange={(e) => setKeyword(e.target.value)} />
+    </div>
+    <div className="h-6">
     {renderMessage}
     </div>
-    <div>
+    </div>
+    <div className="flex justify-center fixed bottom-5 left-0 right-0">
     <form onSubmit={sendMessage}>
       <div className="flex-grow bottom-0 left-0 right-0 p-6">
       <div className="container flex justify-start items-center">
