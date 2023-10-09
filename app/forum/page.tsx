@@ -2,7 +2,7 @@
 import MessageCard  from "../components/MessageCard";
 import addData from "@/config/firestore/addData";
 import getData from "@/config/firestore/getData";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import { getCurrentUser } from "../utility/dbFunctions";
 
 type Message = {
@@ -21,11 +21,24 @@ export default function Forum() {
   const [user,setUser] = useState("");
   const[Keyword,setKeyword]=useState('');
   const [data, setData] = useState<Message[]>([]);
+  const modalRef = useRef<HTMLDialogElement | null>(null)
  
 async function receiveData(){
   const newData:any = await getData()
   console.log(newData)
   setData(newData)
+}
+
+const openModal = () => {
+  if(modalRef.current){
+      modalRef.current.showModal()
+  }
+}
+
+const closeModal = () => {
+  if(modalRef.current){
+      modalRef.current.close()
+  }
 }
 
 const filteredData = data.filter((data)=>{
@@ -89,10 +102,12 @@ const renderMessage = filteredData.map((msg) =>{
 })
 
   return (
+    <>
     <div className="flex flex-col h-screen relative">
     <div>
     <header className="flex justify-between ml-4 items-center mb-4">
     <h1 className="text-2xl">Discussion Forum</h1>
+    <button className="btn btn-primary mr-8" onClick={openModal}>Statistics</button>
     </header>
     <div className="flex justify-center fixed top-12 left-0 right-0">
     <input type="text" className="input input-bordered input-info w-1/2 p-15" id="searchMessage" placeholder="Enter Search Keyword" value={Keyword} onChange={(e) => setKeyword(e.target.value)} />
@@ -113,5 +128,19 @@ const renderMessage = filteredData.map((msg) =>{
     </form>
     </div>
     </div>
+    <dialog ref={modalRef} className="modal">
+      <div className="modal-box">
+      <h3 className="font-bold text-lg">Chat Statistics</h3>
+      <p className="py-4">                           
+      Total Number of Messages: {data.length}
+      </p> 
+      <div className="modal-action">
+      <form method="dialog">
+      <button className="btn" onClick={closeModal}>Close</button>
+      </form>
+      </div>
+      </div>
+  </dialog>
+  </>
   )
 }
