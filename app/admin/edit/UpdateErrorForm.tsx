@@ -1,7 +1,7 @@
 "use client"
 
 import toast, { Toaster } from 'react-hot-toast';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import 'firebase/compat/firestore';
 import firestore from "../../../config/firebase_cs";
@@ -18,20 +18,25 @@ function UpdateErrorForm(){
 	const docRef = firestore.collection('error-explanations');
 
 	// get description
-	const fetchDescription = async () => {
-		try {
-			const docSnapshot = await docRef.doc(errorId).get();
-			if (docSnapshot.exists) {
-				const existingDescription = docSnapshot.data()?.description || '';
-				setDescription(existingDescription);
-			} else {
-				console.error(`Document ID "${errorId}" does not exist.`);
+	useEffect(() => {
+		const fetchDescription = async () => {
+			const fetchingDescription = toast.loading('fetching Description...');
+			try {
+				const docSnapshot = await docRef.doc(errorId).get();
+				if (docSnapshot.exists) {
+					const existingDescription = docSnapshot.data()?.description || '';
+					setDescription(existingDescription);
+					toast.dismiss(fetchingDescription);
+				} else {
+					console.error(`Document ID "${errorId}" does not exist.`);
+				}
+			} catch (error) {
+				console.error('error fetching description\n' + error);
+				toast.error('something went wrong 🙁', {id: fetchingDescription});
 			}
-		} catch (error) {
-			console.error('error fetching description\n' + error);
 		}
-	}
-	fetchDescription();
+		fetchDescription();
+	}, []);
 
 	// update error
 	const save = async(event: React.SyntheticEvent) => {
@@ -105,7 +110,7 @@ function UpdateErrorForm(){
 					<div className="flex space-x-4 justify-end items-center">
 						<button className="btn btn-accent w-28" type='submit'>Update</button>
 						<button className="btn btn-outline btn-error w-28"
-						onClick={() => route.push('/admin')} >
+						onClick={(e) => { e.preventDefault(); route.push('/admin') }} >
 							Back
 						</button>
 					</div>

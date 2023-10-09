@@ -62,7 +62,7 @@ function NewErrorForm(){
 					<button className="btn btn-accent w-28" type='submit'>Save</button>
 					<button className="btn btn-outline btn-error w-28" 
 					onClick={(e) => { e.preventDefault(); route.push('/admin') }} >
-						Cancel
+						Back
 					</button>
 				</div>
 			</form>
