@@ -14,7 +14,7 @@ const errors = [{error:'NullPointerException', lineNo:'12'}, {error:'ArithmeticE
 
 // Fetch data from Firestore
 function ErrorList() {
-	const [docData, setDocData] = useState<{ name: string; explanation: string; lineNo: string }[]>([]);
+	const [docData, setDocData] = useState<{ name: string; description: string; lineNo: string }[]>([]);
 
 	useEffect(() => {
 		const fetchDocuments = async () => {
@@ -25,20 +25,20 @@ function ErrorList() {
 					const docSnap = await getDoc(docRef);
 					if (docSnap.exists()) {
 						const data = docSnap.data();
-						return { name: data.name, explanation: data.explanation, lineNo: errors.lineNo };
+						return { name: data.name, description: data.description, lineNo: errors.lineNo };
 					} else {
 						console.log(`No document found for error: ${errors.error}`);
-						return { name: '', explanation: '', lineNo: errors.lineNo }; // default data
+						return { name: '', description: '', lineNo: errors.lineNo }; // default data
 					}
 				} catch (error) {
 					console.error(`Error fetching document for error ${errors.error}:`, error);
-					return { name: '', explanation: '', lineNo: errors.lineNo };
+					return { name: '', description: '', lineNo: errors.lineNo };
 				}
 			});
 
 			const results = await Promise.all(dataPromises);
 			// filter out null results
-			setDocData(results.filter((data) => data !== null) as { name: string; explanation: string; lineNo: string }[]);
+			setDocData(results.filter((data) => data !== null) as { name: string; description: string; lineNo: string }[]);
 		};
 
 		// Call the asynchronous function when the component mounts
@@ -54,7 +54,7 @@ function ErrorList() {
 							<h1 className='text-2xl'>{data.name}</h1> <br />
 							<p className='py-6'>
 								<i>At line number {data.lineNo} </i> <br />
-								<i>Explanation:</i> {data.explanation}
+								<i>Description:</i><br/> {data.description}
 							</p>
 						</div>
 					</div>
