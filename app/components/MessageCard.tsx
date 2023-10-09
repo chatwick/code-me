@@ -35,7 +35,7 @@ const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage, ed
     const deleteMessage = async () => {
         try {
             await deleteData(id);
-            window.location.reload();
+            //window.location.reload();
         } catch (error) {
             console.error("Error deleting message:", error);
         }
@@ -45,7 +45,7 @@ const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage, ed
         try{
             await updateData(id, updatedData)
             closeModal()
-            window.location.reload();
+            //window.location.reload();
         }catch(error){
             console.error("Error updating message: ",error)
         }
@@ -91,7 +91,7 @@ const MessageCard: FC<Message> = ({ id, message, user, date, time, userImage, ed
 
     var style: string = "chat chat-start relative"
     var color: string ="chat-bubble chat-bubble-success"
-    var userName: any = user.split("@",1)
+    var userName: any = (user || '').split("@",1)
     if(auth==user){
         style = "chat chat-end relative"
         color = "chat-bubble chat-bubble-warning"

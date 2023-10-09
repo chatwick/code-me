@@ -30,7 +30,7 @@ async function receiveData(){
 
 const filteredData = data.filter((data)=>{
   const message = data.message.toLowerCase()
-  const user = data.user.toLowerCase()
+  const user = (data.user || '').toLowerCase()
   const date = data.updatedDate.toLowerCase()
   const time = data.updatedTime.toLowerCase()
   const keyword = Keyword.toLowerCase()
@@ -48,7 +48,7 @@ async function authenticate(){
 useEffect(()=>{
    receiveData()
    authenticate()
-},[])
+},[data])
 
 
 async function sendMessage(event: React.FormEvent<HTMLFormElement>) {
