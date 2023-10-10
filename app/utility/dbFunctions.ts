@@ -11,6 +11,8 @@ import { log } from "console";
 import React, { FunctionComponent, useState } from "react";
 import { promises } from "dns";
 import { signOutReturn } from "./interfaces";
+import { updateEmail } from "firebase/auth";
+import { reauthenticateWithCredential } from 'firebase/auth'
 
 // consts
 
@@ -137,16 +139,35 @@ export const getCurrentUser = async (): Promise<availableUser> => {
 };
 
 /**
- * returns the user object of a given uid
+ * Updates a email of a user
  */
-export const getUserByID = async () => {
+export const updateUserEmail = async (newEmail: string) => {
+  const { user }: any = await getCurrentUser();
+  const cuser: any = auth.currentUser;
+  try {
+    await updateEmail(cuser, "abcUpdated@gmail.com");
 
+    return { status: true };
+  } catch (error) {
+    console.error("Error Updating email:", error);
+  }
 };
 
+/**
+ * @remark Authenticate User
+ */
+export const reauthenticateUser = async () => {
+  const { user }: any = await getCurrentUser();
+
+}
 
 
 
 
+/**
+ * returns the user object of a given uid
+ */
+export const getUserByID = async () => {};
 
 // /**
 //  * This function returns the currently signed in user when called

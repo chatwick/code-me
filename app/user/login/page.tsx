@@ -28,7 +28,6 @@ const passDefault = 'Enter a strong password'
 
 export default function Login()
 {
-
     const { register, handleSubmit, watch, formState: { errors } } = useForm({
         defaultValues: {
             email: "",
