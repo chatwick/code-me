@@ -1,6 +1,6 @@
 "use client"
 
-import { getCurrentUser, signOutUser, updateUserEmail } from '@/app/utility/dbFunctions'
+import { getCurrentUser, signOutUser, updateUserEmail, updateUserPass } from '@/app/utility/dbFunctions'
 import { useParams, useRouter } from 'next/navigation'
 import React, { useContext, useEffect, useState } from 'react'
 import { userParams } from '@/app/utility/interfaces'
@@ -8,7 +8,6 @@ import { UserContext } from '@/app/contexts/UserContext'
 import { availableUser } from '@/app/utility/interfaces'
 import useUserStore from '@/app/contexts/userStore'
 import { useForm } from 'react-hook-form'
-
 
 // initializing params hoook
 const UserAccount = ({ params }: userParams) =>
@@ -72,13 +71,14 @@ const UserAccount = ({ params }: userParams) =>
   /**
    * @remark Updates email and password
    */
-  const handleUpdate = async () =>{
-    const status = await updateUserEmail("");
-    if(status){
-      console.log("Update successful");
+  const handleUpdate = async (data: any) =>{
+    // const status = await updateUserEmail("");
+    const passStatus = await updateUserPass(data);
+    if(passStatus){
+      console.log("Password Update successful");
     }else
     {
-      console.log("Error updating email");
+      console.log("Error updating password");
     }
   }
 
@@ -90,7 +90,8 @@ const UserAccount = ({ params }: userParams) =>
           {user?.email? user.email : 'loading...'}
           <div className="">
           <form className='flex flex-col justify-center items-center my-5' onSubmit={handleSubmit(handleUpdate)}>
-            <input className='input input-bordered' {...register("email", { required: "Please enter an email" })} placeholder={"temp"} />
+            {/* <input className='input input-bordered' {...register("email", { required: "Please enter an email" })} placeholder={"new email"} /> */}
+            <input className='input input-bordered' type="password" {...register("password", { required: "Please enter a new password" })} placeholder={"new password"} />
             <button className="btn btn-primary w-40">Update</button>
             </form>
           </div>

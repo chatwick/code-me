@@ -11,8 +11,8 @@ import { log } from "console";
 import React, { FunctionComponent, useState } from "react";
 import { promises } from "dns";
 import { signOutReturn } from "./interfaces";
-import { updateEmail } from "firebase/auth";
-import { reauthenticateWithCredential } from 'firebase/auth'
+import { updateEmail, updatePassword } from "firebase/auth";
+import { reauthenticateWithCredential } from "firebase/auth";
 
 // consts
 
@@ -33,6 +33,9 @@ interface availableUser {
   uid?: string;
   user?: object;
 }
+
+// auth object
+const cuser: any = auth.currentUser;
 
 /**
  *
@@ -143,7 +146,7 @@ export const getCurrentUser = async (): Promise<availableUser> => {
  */
 export const updateUserEmail = async (newEmail: string) => {
   const { user }: any = await getCurrentUser();
-  const cuser: any = auth.currentUser;
+  // const cuser: any = auth.currentUser;
   try {
     await updateEmail(cuser, "abcUpdated@gmail.com");
 
@@ -154,15 +157,23 @@ export const updateUserEmail = async (newEmail: string) => {
 };
 
 /**
+ * @remark Updates password
+ */
+export const updateUserPass = async (newPass: string) => {
+  try {
+    await updatePassword(cuser, "NewPassword1234");
+    return { status: true };
+  } catch (error) {
+    console.error("Error Updating password:", error);
+  }
+};
+
+/**
  * @remark Authenticate User
  */
 export const reauthenticateUser = async () => {
   const { user }: any = await getCurrentUser();
-
-}
-
-
-
+};
 
 /**
  * returns the user object of a given uid
