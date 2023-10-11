@@ -13,6 +13,7 @@ function UpdateErrorForm(){
 	const searchParams = useSearchParams();
 	const errorId = searchParams.get('errorID') || 'errorID' as string;
 	const [description, setDescription] = useState('');
+	const [isUpdating, setIsUpdating] = useState(false);
 	const route = useRouter();
 
 	const docRef = firestore.collection('error-explanations');
@@ -41,6 +42,7 @@ function UpdateErrorForm(){
 	// update error
 	const save = async(event: React.SyntheticEvent) => {
 		event.preventDefault();
+		setIsUpdating(true);
 		const updatingToast = toast.loading('Updating...', {style:{minWidth: '250px'}});
 		try {
 			// update document
@@ -52,6 +54,8 @@ function UpdateErrorForm(){
 		} catch (error) {
 			console.error(error);
 			toast.error('something went wrong 🙁', {id: updatingToast, style:{minWidth: '250px'}});
+		} finally {
+			setIsUpdating(false);
 		}
 	}
 
@@ -98,19 +102,21 @@ function UpdateErrorForm(){
 				<label htmlFor="description" className="label label-text">Description </label>
 				<textarea name="description" id="description" 
 				className="textarea textarea-bordered textarea-lg w-full max-w-[100%] h-96 text-base"
-				value={description} onChange={(e) => setDescription(e.target.value)} >
+				value={description} onChange={(e) => setDescription(e.target.value)} disabled={isUpdating}>
 				</textarea> <br />
 
 				{/* buttons */}
 				<div className='flex justify-between items-center'>
 					<button className="btn btn-outline btn-error w-28"
-					onClick={openDeleteModal} >
+					onClick={openDeleteModal} disabled={isUpdating} >
 						Delete
 					</button>
 					<div className="flex space-x-4 justify-end items-center">
-						<button className="btn btn-accent w-28" type='submit'>Update</button>
+						<button className="btn btn-accent w-28" type='submit' disabled={isUpdating}>
+							Update
+						</button>
 						<button className="btn btn-outline btn-error w-28"
-						onClick={(e) => { e.preventDefault(); route.push('/admin') }} >
+						onClick={(e) => { e.preventDefault(); route.push('/admin') }} disabled={isUpdating}>
 							Back
 						</button>
 					</div>
