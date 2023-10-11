@@ -11,8 +11,9 @@ import { log } from "console";
 import React, { FunctionComponent, useState } from "react";
 import { promises } from "dns";
 import { signOutReturn } from "./interfaces";
-import { updateEmail, updatePassword } from "firebase/auth";
+import { updateEmail, updatePassword, deleteUser } from "firebase/auth";
 import { reauthenticateWithCredential } from "firebase/auth";
+import { loginUser as loginInterfaceProps } from "./interfaces";
 
 // consts
 
@@ -33,9 +34,6 @@ interface availableUser {
   uid?: string;
   user?: object;
 }
-
-// auth object
-const cuser: any = auth.currentUser;
 
 /**
  *
@@ -76,32 +74,35 @@ export const registerUser = async (newUser: newUserProps) => {
  *
  * @param user - User objet to be logged in
  * @returns Status object with status and message
+ * @remark Note - Not a good way to structure the function. See registerUser for good structure
  */
-export const loginUser = async (user: existingUserProps) => {
+export const loginUser = async (
+  user: existingUserProps
+): Promise<loginInterfaceProps> => {
   const { email, password } = user;
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      console.log("Successfully logged in");
-      console.log(user);
+  return new Promise((resolve) => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log("Successfully logged in");
+        console.log(user);
 
-      return {
-        status: true,
-        message: "Successfully logged in user",
-      };
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
+        resolve({
+          status: true,
+          message: "Successfully logged in user",
+        });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
 
-      return {
-        status: false,
-        message: `Encountered an error during login process. Error code: ${errorCode}`,
-      };
-    });
-
-  return;
+        resolve({
+          status: false,
+          message: `Encountered an error during login process. Error code: ${errorCode}`,
+        });
+      });
+  });
 };
 
 /**
@@ -146,7 +147,7 @@ export const getCurrentUser = async (): Promise<availableUser> => {
  */
 export const updateUserEmail = async (newEmail: string) => {
   const { user }: any = await getCurrentUser();
-  // const cuser: any = auth.currentUser;
+  const cuser: any = auth.currentUser;
   try {
     await updateEmail(cuser, "abcUpdated@gmail.com");
 
@@ -160,16 +161,38 @@ export const updateUserEmail = async (newEmail: string) => {
  * @remark Updates password
  */
 export const updateUserPass = async (newPass: string) => {
+  const cuser: any = auth.currentUser;
   try {
+    console.log(cuser);
     await updatePassword(cuser, "NewPassword1234");
     return { status: true };
   } catch (error) {
     console.error("Error Updating password:", error);
+    return { status: false };
+  }
+};
+
+/**
+ * @remark Deletes the user
+ * @returns Status object with deletion result
+ */
+export const deleteUserAccount = async () => {
+  const cuser: any = auth.currentUser;
+  try {
+    const result = await deleteUser(cuser);
+    await signOutUser();
+    console.log('Successfully deleted user account');
+    
+    return { status: true };
+  } catch (error) {
+    console.error("Error Deleting account:", error);
+    return { status: false };
   }
 };
 
 /**
  * @remark Authenticate User
+ * @remark This function is no longer working. Do not use this
  */
 export const reauthenticateUser = async () => {
   const { user }: any = await getCurrentUser();

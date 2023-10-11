@@ -24,3 +24,8 @@ export interface availableUser {
 export interface userParams {
   params: { userAcc: string };
 }
+
+export interface loginUser{
+    status: boolean;
+    message: string;
+}
