@@ -68,7 +68,7 @@ export default function EditorUI()
         {!sandboxEditorView && <button className='btn btn-primary mx-5' onClick={handleEditorView}>Show SandBox</button>}
       </div>
       <div className="flex flex-row">
-        <div className="overlay rounded-md w-2/3 shadow-4xl">
+        <div className="overlay rounded-md w-full shadow-4xl">
           {sandboxEditorView ?
             (<Sandpack
               theme="light"
