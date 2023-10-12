@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import firestore from '../../config/firebase_cs'
 import { useRouter } from 'next/navigation';
+import generatePDFReport from './generatePDFReport';
 
 
 function MainUI() {
@@ -71,6 +72,15 @@ function MainUI() {
 					</li>
 				)) }
 			</ul>
+
+
+			{/* Download Report Button */}
+			<button
+				className="btn btn-outline btn-accent fixed bottom-8 right-8"
+				onClick={generatePDFReport}
+			>
+				Download Report
+			</button>
 		</div>
 	);
 }
