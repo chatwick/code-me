@@ -129,7 +129,7 @@ function NavBar()
                     <li><Link className='text-blue-500' href="/forum" onClick={checkForUser}><MdForum /> Forum</Link></li>
                     <hr className='my-4' />
                     <li><Link className='text-blue-400' href="/editor/errorHelper"><BiSolidHelpCircle />Error helper</Link></li>
-                    <li><Link className='text-blue-400' href="/"><FcHeatMap size={22} />Code Visualizer</Link></li>
+                    <li><Link className='text-blue-400' href="/editor"><FcHeatMap size={22} />Code Visualizer</Link></li>
 
                 </ul>
 
