@@ -1,7 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import { App } from './NewEditor'
-import Output from './Output'
 import Diagram from '../../components/Diagram'
 
 export default function EditorUI()

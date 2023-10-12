@@ -1,16 +1,25 @@
 "use client"
 
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import * as monaco from 'monaco-editor';
 import Editor from '@monaco-editor/react';
 import Output from './new-editor/Output';
 import { Sandpack } from "@codesandbox/sandpack-react";
+import Diagram from '../components/Diagram'
+
 
 export default function EditorUI()
 {
   const [sandboxEditorView, setSandboxEditorView] = useState(false)
   const [language, setLanguage]: any = useState('vanilla')
+  const [terminalView, setTerminalView] = useState(false)
+  const [data, setData] = useState('');
   const editorRef: any = useRef(null);
+
+  useEffect(() =>
+  {
+    setData('newStack.push(12)newStack.push(23)newStack.pop()newStack.push(34)newStack.push(45)newStack.push(56)newStack.pop()newStack.pop()')
+  }, [])
 
   function handleEditorChange(value: any, event: any)
   {
@@ -52,14 +61,16 @@ export default function EditorUI()
   return (
     <main>
       <div className="flex items-center justify-center mb-5">
-        {!sandboxEditorView && <button className='btn btn-primary' onClick={handleRun} >Show value</button>}
-        {sandboxEditorView && <button className='btn btn-primary mx-5' onClick={handleEditorView}>Show SandBox</button>}
-        {!sandboxEditorView && <button className='btn btn-primary mx-5' onClick={handleEditorView}>Show Editor</button>}
+        {!sandboxEditorView && terminalView && <button className='btn btn-primary mx-5' onClick={handleRun} >Show value</button>}
+        {!sandboxEditorView && !terminalView && <button className='btn btn-primary mx-5' onClick={() => setTerminalView(true)} >Show Terminal</button>}
+        {!sandboxEditorView && terminalView && <button className='btn btn-primary mx-5' onClick={() => setTerminalView(false)} >Show Visualizer</button>}
+        {sandboxEditorView && <button className='btn btn-primary mx-5' onClick={handleEditorView}>Show Editor</button>}
+        {!sandboxEditorView && <button className='btn btn-primary mx-5' onClick={handleEditorView}>Show SandBox</button>}
       </div>
       <div className="flex flex-row">
-        <div className="overlay rounded-md w-full shadow-4xl">
+        <div className="overlay rounded-md w-2/3 shadow-4xl">
           {sandboxEditorView ?
-            <Sandpack
+            (<Sandpack
               theme="light"
               template={language}
               options={{
@@ -71,7 +82,7 @@ export default function EditorUI()
                 showTabs: true,
               }}
 
-            /> : <Editor
+            />) : (<Editor
               height="600px"
               defaultLanguage='javascript'
               defaultValue="// some comment"
@@ -79,10 +90,12 @@ export default function EditorUI()
               onMount={handleEditorDidMount}
               beforeMount={handleEditorWillMount}
               onValidate={handleEditorValidation}
-            />}
+            />)}
         </div>
-        {/* <Output /> */}
-
+        <div className="mx-2">
+          {!terminalView && !sandboxEditorView && <Diagram code={data} />}
+          {terminalView && !sandboxEditorView && <Output />}
+        </div>
       </div>
       <div className="">
         {sandboxEditorView &&
@@ -99,3 +112,30 @@ export default function EditorUI()
 
   )
 }
+
+
+
+
+// {sandboxEditorView ?
+//   (<Sandpack
+//     theme="light"
+//     template={language}
+//     options={{
+//       editorHeight: "600px",
+//       showConsoleButton: true,
+//       showInlineErrors: true,
+//       showNavigator: true,
+//       showLineNumbers: true,
+//       showTabs: true,
+//     }}
+
+//   />) : terminalView ? (<Editor
+//     height="600px"
+//     defaultLanguage='javascript'
+//     defaultValue="// some comment"
+//     onChange={handleEditorChange}
+//     onMount={handleEditorDidMount}
+//     beforeMount={handleEditorWillMount}
+//     onValidate={handleEditorValidation}
+//   />) : (<Diagram code={data} />)
+// }
