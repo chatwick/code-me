@@ -9,7 +9,7 @@ import { Sandpack } from "@codesandbox/sandpack-react";
 export default function EditorUI()
 {
   const [sandboxEditorView, setSandboxEditorView] = useState(false)
-  const [language, setLanguage] = useState('vanilla')
+  const [language, setLanguage]: any = useState('vanilla')
   const editorRef: any = useRef(null);
 
   function handleEditorChange(value: any, event: any)
@@ -51,11 +51,11 @@ export default function EditorUI()
 
   return (
     <main>
-        <div className="flex items-center justify-center mb-5">
-          <button className='btn btn-primary' onClick={handleRun} >Show value</button>
-          {sandboxEditorView && <button className='btn btn-primary mx-5' onClick={handleEditorView}>Show SandBox</button>}
-          {!sandboxEditorView && <button className='btn btn-primary mx-5' onClick={handleEditorView}>Show Editor</button>}
-        </div>
+      <div className="flex items-center justify-center mb-5">
+        {!sandboxEditorView && <button className='btn btn-primary' onClick={handleRun} >Show value</button>}
+        {sandboxEditorView && <button className='btn btn-primary mx-5' onClick={handleEditorView}>Show SandBox</button>}
+        {!sandboxEditorView && <button className='btn btn-primary mx-5' onClick={handleEditorView}>Show Editor</button>}
+      </div>
       <div className="flex flex-row">
         <div className="overlay rounded-md w-full shadow-4xl">
           {sandboxEditorView ?
