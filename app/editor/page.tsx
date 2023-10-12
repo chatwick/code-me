@@ -85,7 +85,23 @@ export default function EditorUI()
             />) : (<Editor
               height="600px"
               defaultLanguage='javascript'
-              defaultValue="// some comment"
+defaultValue={`
+const stack = new Stack(10)
+
+stack.push(12)
+stack.push(23)
+stack.pop()
+stack.push(34)
+stack.push(45)
+stack.push(56)
+stack.pop()
+stack.pop()
+stack.pop()
+stack.push(67)
+stack.pop()
+stack.push(78)
+stack.push(89)
+stack.pop()`}
               onChange={handleEditorChange}
               onMount={handleEditorDidMount}
               beforeMount={handleEditorWillMount}

@@ -17,8 +17,8 @@ function Diagram({ code }) {
   const updateContext = (obj) => {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     new DiagramFactory(ctx, 0, obj);
-  }
- 
+  };
+
   const handlePrevious = () => {
     if (objCount === -1) return;
     setCount(objCount - 1);
@@ -27,30 +27,26 @@ function Diagram({ code }) {
   };
 
   const handleNext = () => {
-    if(objCount===obj.length - 1) return;
-    setCount(objCount+1)
-    const newObj = obj[objCount+1]
-    updateContext(newObj)
-  }
-  
-  const handleVisualize = () => {
-    console.log(obj);
-  }
-  
-   useEffect(() => {
-      // const stackName = 'myStack' 
-      const stackName = 'newStack' 
-      const pushRegex = new RegExp(`${stackName}\\.push\\((\\d+)\\)`, 'g');
-      const operationRegex = new RegExp(`(${stackName}\\.push|${stackName}\\.pop)\\(`, 'g');
-      
-      fetch('/code.java')
+    if (objCount === obj.length - 1) return;
+    setCount(objCount + 1);
+    const newObj = obj[objCount + 1];
+    updateContext(newObj);
+  };
+
+  useEffect(() => {
+    // const stackName = 'myStack'
+    const stackName = "newStack";
+    const pushRegex = new RegExp(`${stackName}\\.push\\((\\d+)\\)`, "g");
+    const operationRegex = new RegExp(
+      `(${stackName}\\.push|${stackName}\\.pop)\\(`,
+      "g"
+    );
+
+    fetch("/code.java")
       .then((response) => response.text())
       .then((data) => {
-        // console.log(data);
-        setData(data)
+        setData(data);
         // get stack data from the file
-        // console.log(data);
-
         let match;
         while ((match = pushRegex.exec(data)) !== null) {
           pushOperations.push(parseInt(match[1]));
@@ -63,16 +59,6 @@ function Diagram({ code }) {
         }
         setFileContent(pushOperations);
         setFileContentType(operations);
-
-        // let zeroTracker = []
-
-        // if(Array.isArray(FileContentType)){
-        // FileContentType.forEach(function callback(value, index) {
-        //     if(value === 0){
-        //       zeroTracker.push(index)
-        //     }
-        //   });
-        // }
 
         let mainArr = 0;
         let testMainObj = [];
@@ -150,12 +136,30 @@ function Diagram({ code }) {
   }, [data]);
 
   return (
-    <div className='flex justify-center items-center'>
-      <div className='grid grid-cols-3 gap-3'>
-        <button className='btn btn-primary' onClick={handleVisualize}>Visualize</button>
-        <button className='btn btn-secondary' onClick={handlePrevious}>Previous</button>
-        <button className='btn btn-secondary' onClick={handleNext}>Next</button>
+    <div className="grid grid-cols-1">
+      <div className="flex justify-center items-center">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <button className="btn btn-primary" onClick={handlePrevious}>
+                Previous
+              </button>
+            </div>
+            <div>
+              <button className="btn btn-primary" onClick={handleNext}>
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
+      <br />
       <div>
         <canvas
           id="myCanvas"
@@ -168,4 +172,4 @@ function Diagram({ code }) {
   );
 }
 
-export default Diagram
+export default Diagram;
