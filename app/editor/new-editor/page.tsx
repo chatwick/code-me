@@ -31,7 +31,8 @@ export default function EditorUI()
         <div className="divider divider-horizontal"></div>
 
         <div className="flex flex-auto">
-          {view ? <Output/> : <Diagram code={data} />}
+
+          {view ? <Output /> : <Diagram code={data} />}
         </div>
       </div>
     </main>
