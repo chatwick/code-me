@@ -7,6 +7,9 @@ import { useForm } from 'react-hook-form'
 import { log } from 'console'
 import Link from 'next/link'
 import patternbg from '../public/loginbg.jpg'
+import { loginUser } from '@/app/utility/dbFunctions'
+import { useRouter } from 'next/navigation';
+import { Alert } from '@/app/components/Alert'
 
 type Inputs = {
     example: string,
@@ -22,7 +25,7 @@ type existingUser = {
 
 // Strings
 
-
+// LOGS IN User
 export default function SignIn()
 {
 
@@ -35,17 +38,34 @@ export default function SignIn()
 
     // states
     const [userData, setUserData] = useState<existingUser>()
+    const [showAlert, setShowAlert] = useState(false)
 
+    // routerhook
+    const router = useRouter();
 
     const handleFormSubmit = async (data: existingUser) =>
     {
         setUserData(data);
         console.log(data);
-
+        const result = await loginUser(data)
+        if (result.status) {
+            router.push('/')
+        }else{
+            setShowAlert(true)
+            console.log('called error login part');
+            
+            setTimeout(() =>
+            {
+                setShowAlert(false)
+            }, 8000);
+            // router.push('/user/signin')
+        }
     }
 
 
     return (
+        <>
+        {showAlert && <Alert message={'Error logging in please try again'} type={'error'} />}
         <div className="flex bg-customBG2 justify-center">
             <div className="card card-bordered lg:card-side lg:w-3/5 bg-base-100 shadow-xl my-20">
                 <div className=" lg:flex hidden mx-10">
@@ -98,5 +118,7 @@ export default function SignIn()
                 </div>
             </div>
         </div>
+    </>
     )
 }
+
