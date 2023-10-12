@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { App } from './NewEditor'
 import Diagram from '../../components/Diagram'
+import Output from './Output';
 
 export default function EditorUI()
 {
