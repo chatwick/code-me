@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { App } from './NewEditor'
 import Diagram from '../../components/Diagram'
+import Output from './Output';
 
 export default function EditorUI()
 {
@@ -30,7 +31,7 @@ export default function EditorUI()
         <div className="divider divider-horizontal"></div>
 
         <div className="flex flex-auto">
-          {view ? 'output removed' : <Diagram code={data} />}
+          {view ? <Output/> : <Diagram code={data} />}
         </div>
       </div>
     </main>
