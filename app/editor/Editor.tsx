@@ -10,49 +10,35 @@
  */
 
 import React, { useRef, useEffect } from 'react';
-import * as monaco from 'monaco-editor';
+import Editor from '@monaco-editor/react';
 
-// @ts-ignore
-self.MonacoEnvironment = {
-    getWorkerUrl: function (_moduleId: any, label: string)
-    {
-        if (label === 'json')
-        {
-            return './json.worker.bundle.js';
-        }
-        if (label === 'css' || label === 'scss' || label === 'less')
-        {
-            return './css.worker.bundle.js';
-        }
-        if (label === 'html' || label === 'handlebars' || label === 'razor')
-        {
-            return './html.worker.bundle.js';
-        }
-        if (label === 'typescript' || label === 'javascript')
-        {
-            return './ts.worker.bundle.js';
-        }
-        return './editor.worker.bundle.js';
-    }
-};
+export const TextEditor = () => {
+    function handleEditorChange(value: any, event: any) {
+        // here is the current value
+      }
+    
+      function handleEditorDidMount(editor : any, monaco : any) {
+        console.log('onMount: the editor instance:', editor);
+        console.log('onMount: the monaco instance:', monaco);
+      }
+    
+      function handleEditorWillMount(monaco : any) {
+        console.log('beforeMount: the monaco instance:', monaco);
+      }
+    
+      function handleEditorValidation(markers : any) {
+        // model markers
+        // markers.forEach(marker => console.log('onValidate:', marker.message));
+      }
+  return (
+    <Editor
+      height="90vh"
+      defaultLanguage="javascript"
+      defaultValue="// some comment"
+      onChange={handleEditorChange}
+      onMount={handleEditorDidMount}
+      beforeMount={handleEditorWillMount}
+      onValidate={handleEditorValidation}
+    />  )
+}
 
-export const Editor: React.FC = () =>
-{
-    const divEl = useRef<HTMLDivElement>(null);
-    let editor: monaco.editor.IStandaloneCodeEditor;
-    useEffect(() =>
-    {
-        if (divEl.current)
-        {
-            editor = monaco.editor.create(divEl.current, {
-                value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
-                language: 'typescript'
-            });
-        }
-        return () =>
-        {
-            editor.dispose();
-        };
-    }, []);
-    return <div className="Editor w-1/2 h-screen" ref={divEl}></div>;
-};

@@ -10,24 +10,23 @@ export default function Output()
   {
     const xtermTerminal = document.getElementById('terminal') as HTMLElement;
     term.loadAddon(fitAddon);
-    term.open(document.getElementById('terminal') as HTMLElement );
+    term.open(document.getElementById('terminal') as HTMLElement);
     fitAddon.fit();
     term.write('Terminal started')
   })
 
-  term.onKey((e)=> {
+  term.onKey((e) =>
+  {
     term.write(e.key)
   })
 
 
   return (
     <main className='flex flex-1'>
-
       <div className="flex flex-col w-full">
         <h2 className='text-center'>Output</h2>
         <div id="terminal"></div>
       </div>
-
     </main>
   );
 }
