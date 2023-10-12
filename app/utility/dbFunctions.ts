@@ -160,11 +160,12 @@ export const updateUserEmail = async (newEmail: string) => {
 /**
  * @remark Updates password
  */
-export const updateUserPass = async (newPass: string) => {
+export const updateUserPass = async (data: { password: string }) => {
+  const { password } = data;
   const cuser: any = auth.currentUser;
   try {
     console.log(cuser);
-    await updatePassword(cuser, "NewPassword1234");
+    await updatePassword(cuser, password);
     return { status: true };
   } catch (error) {
     console.error("Error Updating password:", error);
@@ -181,8 +182,8 @@ export const deleteUserAccount = async () => {
   try {
     const result = await deleteUser(cuser);
     await signOutUser();
-    console.log('Successfully deleted user account');
-    
+    console.log("Successfully deleted user account");
+
     return { status: true };
   } catch (error) {
     console.error("Error Deleting account:", error);

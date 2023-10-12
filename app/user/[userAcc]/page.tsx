@@ -30,7 +30,6 @@ const UserAccount = ({ params }: userParams) =>
   // form attributes
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      email: "",
       password: ""
     }
   });
@@ -95,12 +94,12 @@ const UserAccount = ({ params }: userParams) =>
     if (passStatus?.status)
     {
       setShowAlert(true)
-            console.log('called error login part');
-            
-            setTimeout(() =>
-            {
-                setShowAlert(false)
-            }, 8000);
+      console.log('called error login part');
+
+      setTimeout(() =>
+      {
+        setShowAlert(false)
+      }, 8000);
       console.log("Password Update successful");
     } else
     {
@@ -110,17 +109,15 @@ const UserAccount = ({ params }: userParams) =>
 
   return (
     <>
-      <div>UserAccount of {id}</div>
       {showAlert && <Alert message={'Password update successful'} type={'success'} />}
       <div className="flex justify-center">
         <div className='card card-bordered border-white lg:w-2/5 lg:h-2/5 bg-base-100 shadow-xl my-20'>
           <div className="flex flex-col justify-center items-center mt-10 text-2xl">
             {user?.email ? `Welcome to your profile ${user.email}` : 'Loading...'}
-            <p className='text-base'>You may change your password here</p>
+            <p className='text-base mt-10'>You may change your password here</p>
           </div>
           <div className="flex flex-col justify-center items-center">
             <form className='flex flex-col justify-center items-center my-5' onSubmit={handleSubmit(handleUpdate)}>
-              {/* <input className='input input-bordered' {...register("email", { required: "Please enter an email" })} placeholder={"new email"} /> */}
               <input className='input input-bordered' type="password" {...register("password", {
                 required: "Please enter a password", minLength: {
                   value: 8,
