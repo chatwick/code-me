@@ -24,7 +24,6 @@ export default function Output()
   return (
     <main className='flex flex-1'>
       <div className="flex flex-col w-full">
-        <h2 className='text-center'>Output</h2>
         <div id="terminal"></div>
       </div>
     </main>
