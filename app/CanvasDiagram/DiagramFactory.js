@@ -1,16 +1,14 @@
-import Connect from '../CanvasDiagram/Connection'
+import Connect from "../CanvasDiagram/Connection";
 
-export default class DiagramFactory{
+export default class DiagramFactory {
+  constructor(context, id = 0, object) {
+    this.context = context;
+    this.id = id;
+    this.object = object;
+    new Connect(this.object, this.context);
+  }
 
-    constructor(context,id = 0,object){
-        this.context = context
-        this.id = id 
-        this.object = object
-        new Connect(this.object,this.context)
-    }
-
-    update(newObj){
-        this.object = newObj
-    }
-
+  update(newObj) {
+    this.object = newObj;
+  }
 }
