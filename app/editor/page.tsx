@@ -11,7 +11,8 @@ import Link from 'next/link';
 import { Renderer } from '../components/Renderer';
 import ReactPDF, { Page, Text, View, Document, PDFDownloadLink } from '@react-pdf/renderer';
 import { getCurrentUser } from '../utility/dbFunctions';
-
+import { collection, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { firestore } from '@/config/firebase_config';
 
 export default function EditorUI()
 {
@@ -20,13 +21,12 @@ export default function EditorUI()
   const [terminalView, setTerminalView] = useState(false);
   const [data, setData] = useState('');
   const [editorCodes, setEditorCodes] = useState('');
-  const [currentCode, setCurrentCode] = useState('');
+  const [currentCode, setCurrentCode] = useState('const newStack = new Stack()\nnewStack.push(12)\nnewStack.push(23)\nnewStack.pop()\nnewStack.push(34)\nnewStack.push(45)\nnewStack.push(56)\nnewStack.pop()\nnewStack.pop()\nnewStack.pop()\nnewStack.push(67)\nnewStack.pop()\nnewStack.push(78)\nnewStack.push(89)\nnewStack.pop()\n')
   const editorRef: any = useRef(null);
   const editorChanges = useRef('');
 
   useEffect(() =>
   {
-    setData('newStack.push(12)newStack.push(23)newStack.pop()newStack.push(34)newStack.push(45)newStack.push(56)newStack.pop()newStack.pop()')
   }, [])
 
   function handleEditorChange(value: any, event: any)
@@ -108,10 +108,18 @@ export default function EditorUI()
     </Document>
   );
 
+  const handleCodeUpdate = () =>{
+      let code = currentCode
+      const firestoreDocumentRef = doc(firestore, 'code', '0kaWl97ifllAabq0jgJM');
+      updateDoc(firestoreDocumentRef, { code });
+      alert('code is saved')
+  }
+
   return (
     <main>
 
       <div className="flex items-center justify-center mb-5">
+        {!sandboxEditorView && <button className='btn btn-primary mx-5' onClick={handleCodeUpdate} >Update Code</button>}
         {!sandboxEditorView && <button className='btn btn-primary mx-5' onClick={handleSaveChanges} >Save Changes</button>}
         {!sandboxEditorView && <button className='btn btn-primary mx-5' onClick={handleEditorView}>Show SandBox</button>}
         {!sandboxEditorView && terminalView && <button className='btn btn-primary mx-5' onClick={() => setTerminalView(false)} >Show Visualizer</button>}
@@ -150,23 +158,7 @@ export default function EditorUI()
             />) : (<Editor
               height="600px"
               defaultLanguage='javascript'
-defaultValue={`
-const stack = new Stack(10)
-
-stack.push(12)
-stack.push(23)
-stack.pop()
-stack.push(34)
-stack.push(45)
-stack.push(56)
-stack.pop()
-stack.pop()
-stack.pop()
-stack.push(67)
-stack.pop()
-stack.push(78)
-stack.push(89)
-stack.pop()`}
+defaultValue={currentCode}
               onChange={handleEditorChange}
               onMount={handleEditorDidMount}
               beforeMount={handleEditorWillMount}
@@ -174,7 +166,7 @@ stack.pop()`}
             />)}
         </div>
         <div className="mx-2">
-          {!terminalView && !sandboxEditorView && <Diagram code={data} />}
+          {!terminalView && !sandboxEditorView && <Diagram />}
           {terminalView && !sandboxEditorView && <Output />}
         </div>
       </div>
