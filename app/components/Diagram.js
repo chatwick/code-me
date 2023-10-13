@@ -54,13 +54,13 @@ function Diagram() {
     const addAndFetchCode = async (code) => {
       try {
         // Add the code to Firestore and get the document reference
-        const docRef = await addDoc(collection(firestore, "code"), {
-          code: code,
-        });
+        // const docRef = await addDoc(collection(firestore, "code"), {
+        //   code: code,
+        // });
 
-        console.log(docRef.id);
+        // console.log(docRef.id);
         // Use the document reference to fetch the code
-        const codeDocRef = doc(firestore, "code", "0kaWl97ifllAabq0jgJM");
+        const codeDocRef = doc(firestore, "code", "UdlPeKJH5t7X4ywYz93f");
 
         // Get the document data
         const docSnapshot = await getDoc(codeDocRef);
