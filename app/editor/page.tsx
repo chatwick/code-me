@@ -110,8 +110,9 @@ export default function EditorUI()
 
   const handleCodeUpdate = () =>{
       let code = currentCode
-      const firestoreDocumentRef = doc(firestore, 'code', 'UdlPeKJH5t7X4ywYz93f');
-      updateDoc(firestoreDocumentRef, { code });
+      localStorage.setItem('updatedCode', code );
+      // const firestoreDocumentRef = doc(firestore, 'code', 'LDRRblZqmXMUwR8ZluVK');
+      // updateDoc(firestoreDocumentRef, { code });
       alert('code is saved')
   }
 

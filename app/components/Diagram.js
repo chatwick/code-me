@@ -60,13 +60,13 @@ function Diagram() {
 
         // console.log(docRef.id);
         // Use the document reference to fetch the code
-        const codeDocRef = doc(firestore, "code", "UdlPeKJH5t7X4ywYz93f");
+        // const codeDocRef = doc(firestore, "code", "LDRRblZqmXMUwR8ZluVK");
 
         // Get the document data
-        const docSnapshot = await getDoc(codeDocRef);
+        // const docSnapshot = await getDoc(codeDocRef);
 
-        if (docSnapshot.exists()) {
-          const codeData = docSnapshot.data().code;
+        const codeData = localStorage.getItem("updatedCode");
+        if (codeData) {
           console.log(codeData);
 
           fetch(codeData)
@@ -216,7 +216,10 @@ stack.pop();
             <div>
               <button
                 className="btn btn-primary"
-                onClick={() => setNum(num1 + 1)}
+                onClick={() => {
+                  setNum(num1 + 1);
+                  alert("stack is refreshed");
+                }}
               >
                 Refresh
               </button>
