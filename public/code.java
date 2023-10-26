@@ -24,3 +24,5 @@
 // newStack.push(78)
 // newStack.push(89)
 // newStack.pop()
+
+// Stack newStack = new Stack()\nnewStack.push(12)\nnewStack.push(23)\nnewStack.pop()\nnewStack.push(34)\nnewStack.push(45)\nnewStack.push(56)\nnewStack.pop()\nnewStack.pop()\nnewStack.pop()\nnewStack.push(67)\nnewStack.pop()\nnewStack.push(78)\nnewStack.push(89)\nnewStack.pop()\n

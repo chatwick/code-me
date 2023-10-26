@@ -1,8 +1,8 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import { App } from './NewEditor'
-import Output from './Output'
 import Diagram from '../../components/Diagram'
+import Output from './Output';
 
 export default function EditorUI()
 {
@@ -31,6 +31,7 @@ export default function EditorUI()
         <div className="divider divider-horizontal"></div>
 
         <div className="flex flex-auto">
+
           {view ? <Output /> : <Diagram code={data} />}
         </div>
       </div>

@@ -10,6 +10,7 @@ import Link from 'next/link'
 import patternbg from '../public/loginbg.jpg'
 import { registerUser } from '@/app/utility/dbFunctions'
 import { Alert } from '@/app/components/Alert'
+import { useRouter } from 'next/navigation'
 
 type Inputs = {
     example: string,
@@ -26,9 +27,13 @@ type newUser = {
 const emailDefault = 'abc@gmail.com'
 const passDefault = 'Enter a strong password'
 
+
+// Registers user
 export default function Login()
 {
-
+    // router hook
+    const router = useRouter();
+    
     const { register, handleSubmit, watch, formState: { errors } } = useForm({
         defaultValues: {
             email: "",
@@ -58,6 +63,8 @@ export default function Login()
             {
                 setShowAlert(false)
             }, 8000);
+
+            router.push('/');
         }
     }
 

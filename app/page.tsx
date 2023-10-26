@@ -1,3 +1,5 @@
+"use client"
+
 import Image from 'next/image'
 import codeImage from '../public/monacoSample2.jpg'
 import codeImage3 from '../public/monacoSample3.jpg'
@@ -5,6 +7,8 @@ import intellisense from '../public/intellisense.png'
 import codeSuggestions from '../public/codeSuggestionsEdited.jpg'
 import visualizer from '../public/visualizer.png'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation';
+
 
 export default function Home()
 
@@ -31,6 +35,9 @@ export default function Home()
 
 
 {
+  // routerhook
+  const router = useRouter();
+
   return (
     <main className="flex flex-col">
       <div className="bg-customBG1">
@@ -51,7 +58,7 @@ export default function Home()
         </div>
 
         <div className='flex justify-center'>
-          <Link className='btn btn-primary my-10 w-40 mb-10' href="/editor/new-editor">Try it</Link>
+          <Link className='btn btn-primary my-10 w-40 mb-10' href="/editor">Try it</Link>
         </div>
         <div className="flex items-center justify-center">
           <div className="card card-side lg:w-2/3 sm:w-full bg-base-100 shadow-xl">
@@ -73,7 +80,7 @@ export default function Home()
                 </ul>
               </div>
               <div className="card-actions justify-end">
-                <button className="btn btn-primary mx-15">See how it works</button>
+                <button className="btn btn-primary mx-15" onClick={() => router.push('/editor')}>See how it works</button>
               </div>
             </div>
           </div>
@@ -94,7 +101,7 @@ export default function Home()
                 <h2 className="card-title">Data structure visualizer</h2>
                 <p>A unique data structure visualizer to help you understand how data structures work and interact with each other</p>
                 <div className="card-actions justify-end">
-                  <button className="btn btn-primary">View</button>
+                  <button className="btn btn-primary" onClick={() => router.push('/editor')}>View</button>
                 </div>
               </div>
             </div>
@@ -110,7 +117,7 @@ export default function Home()
                 <h2 className="card-title">Intelligent code suggestions</h2>
                 <p>Lets you see the functions and attributes applicabale for a code in real-time</p>
                 <div className="card-actions justify-end">
-                  <button className="btn btn-primary">View</button>
+                  <button className="btn btn-primary" onClick={() => router.push('/editor/errorHelper')}>View</button>
                 </div>
               </div>
             </div>
@@ -130,7 +137,7 @@ export default function Home()
                 <h2 className="card-title">Simplified error messages</h2>
                 <p>No more complex error messages</p>
                 <div className="card-actions justify-end">
-                  <button className="btn btn-primary">View</button>
+                  <button className="btn btn-primary" onClick={() => router.push('/editor')}>View</button>
                 </div>
               </div>
             </div>
