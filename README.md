@@ -8,6 +8,7 @@ Code Me is a simple text editor made with [monaco editor](https://github.com/mic
 ## Tech Stach
 * ReactJs(NextJS)
 * Tailwind CSS
+* DaisyUI
 * Firebase
 * [Monaco editor](https://github.com/microsoft/monaco-editor.git)
 * [CodeSnadbox](https://codesandbox.io/)
